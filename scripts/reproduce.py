@@ -8,6 +8,7 @@ from pathlib import Path
 
 
 REQUIRED = {"range_x", "range_y", "horizontal_barriers", "vertical_barriers", "start_goal"}
+UPSTREAM_COMMIT = "9414ed894d774f71c36e8c0afd0e20e6033b95b1"
 
 
 def load_cases(path):
@@ -58,7 +59,8 @@ def main():
     with args.output.open("w", encoding="utf-8") as stream:
         for map_id, pair_index, query in selected:
             row = {"map_id": map_id, "pair_index": pair_index, "query": query,
-                   "prompt": args.prompt, "status": "error"}
+                   "prompt": args.prompt, "llm": "gpt-3.5-turbo-instruct",
+                   "upstream_commit": UPSTREAM_COMMIT, "status": "error"}
             stem = f"map_{map_id}_pair_{pair_index}"
             try:
                 row["astar"] = AStar().searching(copy.deepcopy(query),

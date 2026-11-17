@@ -29,6 +29,8 @@ curl -L https://raw.githubusercontent.com/SilinMeng0510/llm-astar/9414ed894d774f
 python scripts/reproduce.py --dataset data/environment_50_30.json --validate-only
 ```
 
+On Windows PowerShell, create the folder with `New-Item -ItemType Directory -Force data` and use `curl.exe -L ... -o data/environment_50_30.json` with the same URL above.
+
 Check the expected 100 maps and 1,000 pairs printed by validation before a full experiment. The script accepts any map with the official `range_x`, `range_y`, barrier, and `start_goal` fields; it does not hard-code individual maps.
 
 ## Baseline run
