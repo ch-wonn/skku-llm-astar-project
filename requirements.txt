@@ -1,0 +1,2 @@
+# Official source, pinned to the inspected commit. setup.py installs its declared dependencies.
+git+https://github.com/SilinMeng0510/llm-astar.git@9414ed894d774f71c36e8c0afd0e20e6033b95b1
