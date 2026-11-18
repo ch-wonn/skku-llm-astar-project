@@ -1,6 +1,6 @@
 # LLM-A* reproduction project (work in progress)
 
-This repository contains early SWE3011 Introduction to AI (Fall 2026) reproduction work. An 89-case Gemini waypoint experiment has compared ordinary A*, original LLM-A*, and one candidate search priority; it is documented in [the goal-weight experiment plan](docs/goal_weight_experiment_plan.md) and [experiment log](docs/improvement_experiment_log.md). A later [heuristic ablation and 100-case confirmation](docs/next_improvement_experiment.md) found that reduced waypoint guidance improves on the original LLM-A* but is weaker than a no-LLM weighted A* control. The full 1,000-case Table 1 reproduction and integrated final report remain team work.
+This repository contains early SWE3011 Introduction to AI (Fall 2026) reproduction work. An 89-case Gemini waypoint experiment has compared ordinary A*, original LLM-A*, and one candidate search priority; it is documented in [the goal-weight experiment plan](docs/goal_weight_experiment_plan.md) and [experiment log](docs/improvement_experiment_log.md). A later [heuristic ablation and 100-case confirmation](docs/next_improvement_experiment.md) found that reduced waypoint guidance improves on the original LLM-A* but is weaker than a no-LLM weighted A* control. A [selective waypoint gate](docs/selective_waypoint_plan.md) showed no confirmed gain over that control on a new 100-case check. The full 1,000-case Table 1 reproduction and integrated final report remain team work.
 
 ## Sources and scope
 

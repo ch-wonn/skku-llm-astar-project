@@ -1,0 +1,148 @@
+{
+  "source_cases": 100,
+  "failed_calls": 0,
+  "gate_active": 11,
+  "valid_paths": {
+    "original": 100,
+    "always_on": 100,
+    "weighted_astar": 100,
+    "gate": 100
+  },
+  "mean_elapsed_seconds": {
+    "original": 0.017958411995787172,
+    "always_on": 0.012713820001808927,
+    "weighted_astar": 0.013374951990554109,
+    "gate": 0.013495430998736992
+  },
+  "mean_gate_preprocess_seconds": 4.385699867270887e-05,
+  "ratios": {
+    "gate_over_weighted_astar": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 0.9989242723683206,
+        "arithmetic_mean": 0.9993326118326118,
+        "sample_sd": 0.028340341085891816,
+        "ci95_log_normal_approx": [
+          0.993264991040677,
+          1.004615798329002
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 0.9990769023545906,
+        "arithmetic_mean": 0.999174076487135,
+        "sample_sd": 0.013679377106191215,
+        "ci95_log_normal_approx": [
+          0.9963020915744796,
+          1.0018594412875685
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 0.9995710940367202,
+        "arithmetic_mean": 0.9995800738049504,
+        "sample_sd": 0.0041992619504964135,
+        "ci95_log_normal_approx": [
+          0.9987309719075621,
+          1.0004119228678947
+        ]
+      }
+    },
+    "gate_over_original": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 0.7085242217369292,
+        "arithmetic_mean": 0.8257137318993533,
+        "sample_sd": 0.385906285699638,
+        "ci95_log_normal_approx": [
+          0.6258183480311821,
+          0.802160202504814
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 0.8186388391778117,
+        "arithmetic_mean": 0.8547841089424738,
+        "sample_sd": 0.2232957874495269,
+        "ci95_log_normal_approx": [
+          0.7692633096507517,
+          0.8711835604308938
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 0.9962885094271385,
+        "arithmetic_mean": 0.997293532842991,
+        "sample_sd": 0.04678995573466377,
+        "ci95_log_normal_approx": [
+          0.9876587652134018,
+          1.0049936566928377
+        ]
+      }
+    },
+    "gate_over_always_on": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 0.9468100750263008,
+        "arithmetic_mean": 0.999519081910366,
+        "sample_sd": 0.30064731990826127,
+        "ci95_log_normal_approx": [
+          0.8821930341344868,
+          1.0161600505617336
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 0.9802618155097326,
+        "arithmetic_mean": 0.9919982120357532,
+        "sample_sd": 0.14223104060859057,
+        "ci95_log_normal_approx": [
+          0.9494359701936936,
+          1.012088500028498
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 0.9982978677609423,
+        "arithmetic_mean": 0.9993114448427071,
+        "sample_sd": 0.045873559869038016,
+        "ci95_log_normal_approx": [
+          0.989486659749802,
+          1.0071875380594217
+        ]
+      }
+    },
+    "always_on_over_weighted_astar": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 1.0550418702933342,
+        "arithmetic_mean": 1.1478624516090479,
+        "sample_sd": 0.6921934066719679,
+        "ci95_log_normal_approx": [
+          0.9827826309486666,
+          1.132613980975207
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 1.0191939403811971,
+        "arithmetic_mean": 1.0346103633597687,
+        "sample_sd": 0.20921538732863063,
+        "ci95_log_normal_approx": [
+          0.9870064631910378,
+          1.0524310902194134
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 1.0012753971704191,
+        "arithmetic_mean": 1.0023095780117959,
+        "sample_sd": 0.04674591885797217,
+        "ci95_log_normal_approx": [
+          0.9923952655599255,
+          1.0102349897982679
+        ]
+      }
+    }
+  }
+}

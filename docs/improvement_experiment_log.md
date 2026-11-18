@@ -266,3 +266,47 @@ Gemini waypoints themselves improve search under these weights. The report
 should separate the gain from search weighting from any claim about LLM
 guidance; the latter is not established here. Detailed results and the
 1,000-case guidance are in `docs/next_improvement_experiment.md`.
+
+## 2026-11-18: selective waypoint gate, exploratory 189 cases
+
+To test whether Gemini waypoints help in a restricted situation, we fixed a
+geometric gate before replaying the 89 earlier map-pair-0 cases and the 100
+map-pair-1 confirmation cases. The gate uses goal weight 2 and falls back to
+no-LLM weighted A* unless a model waypoint describes a short collision-free
+two-leg bypass around a blocked direct line. The exact criterion, including
+the 1.25 detour threshold, is in `docs/selective_waypoint_plan.md`.
+
+The gate activated on 13/89 and 15/100 cases. All paths were valid. Gate over
+no-LLM weighted A* operation geometric means were 0.974 (95% interval
+0.956-0.993) in the first group, 0.990 (0.979-1.001) in the second, and
+0.983 (0.972-0.993) pooled. Pooled storage and length ratios were 0.994
+and 0.999. Among the 28 activated cases, operation ratio was 0.889
+(0.836-0.945). This is a small overall gain, not a confirmed new-sample
+result: these cases were previously examined for other methods. Mean local
+runtime was about 17.6 ms for the gate and 17.1 ms for weighted A*, with
+the gate's geometry preprocessing around 0.075 ms per case. These timings
+are descriptive and depend on the local Windows/Python environment.
+
+The gate and acceptance criterion were fixed before collecting a new pair-2
+case from each map. That prospective check is underway; no claim of a
+confirmed LLM contribution is made from these 189 cases alone.
+
+## 2026-11-18: selective gate, prospective pair-2 check
+
+We kept the gate, 1.25 detour threshold, model, and Few-Shot prompt fixed,
+then collected pair index 2 for all 100 maps. All 100 Gemini responses
+parsed and all four comparison methods returned collision-checked paths.
+The gate activated on 11/100 cases. The pinned official A* and LLM-A*
+classes matched the offline replay's counts and lengths on all 100 cases
+under the shared collision predicate.
+
+The gate/no-LLM weighted A* paired geometric-mean operation ratio was
+0.9989 with 95% log-ratio interval 0.9933-1.0046, including 1. Storage
+ratio was 0.9991 (0.9963-1.0019) and path-length ratio 0.9996
+(0.9987-1.0004). Mean measured runtime was about 13.50 ms for the gate
+versus 13.37 ms for weighted A* in this local run. The primary predeclared
+criterion failed, so we rejected the gate as a confirmed LLM-specific
+improvement and did not tune it further. This reconciles the favorable but
+small 189-case exploratory result with the new-sample finding. The negative
+result is retained in `docs/selective_waypoint_plan.md` and the raw
+responses in `experiments/selective_waypoint/`.

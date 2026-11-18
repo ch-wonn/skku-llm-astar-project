@@ -52,3 +52,33 @@ geometric ratio no worse than 1.01, storage ratio, activation rate, and
 measured runtime. Report all 100 selected cases and any API failures. If
 the operation interval includes 1 or the other checks fail, do not claim a
 confirmed benefit over no-LLM weighted A*.
+
+## Results and decision
+
+The prospective pair-2 collection returned 100/100 parseable Gemini
+responses. All four paths were valid in 100/100 cases. The official A* and
+LLM-A* search classes matched the replay's operation, storage, and length
+on all 100 cases under the common collision predicate. The gate activated
+in only 11 cases.
+
+| New pair-2 outcome, gate / no-LLM weighted A* | Geometric mean | 95% log-ratio interval |
+| --- | ---: | ---: |
+| Operations | 0.9989 | 0.9933-1.0046 |
+| Storage | 0.9991 | 0.9963-1.0019 |
+| Path length | 0.9996 | 0.9987-1.0004 |
+
+The operation interval includes 1, so the predeclared primary acceptance
+criterion fails. Mean local elapsed time was approximately 13.50 ms for
+the gate and 13.37 ms for no-LLM weighted A*; this single-run timing is
+descriptive and does not establish a timing difference. The gate's mean
+preprocessing took about 0.044 ms. The method is therefore **rejected as a
+confirmed LLM-specific improvement**, even though its earlier 189-case
+exploratory result was favorable. We do not tune the threshold after this
+result.
+
+Saved model responses and summaries are in `experiments/selective_waypoint/`.
+To repeat the offline comparison without an API call:
+
+```text
+python scripts/evaluate_selective_waypoint.py experiments/selective_waypoint/pair2_waypoints.jsonl --output results/selective_pair2_recomputed.jsonl --summary-output results/selective_pair2_summary_recomputed.json
+```
