@@ -242,3 +242,27 @@ weighted A* at goal weight 2 achieved operations 0.704 and length 0.997.
 Thus reducing waypoint influence looks promising, but the current evidence
 does not show an operation advantage from the LLM waypoint itself. A new
 100-pair confirmation is needed before revising the selected method.
+
+## 2026-11-18: new-pair confirmation run by project member
+
+The project member ran the fixed next test locally: pair index 1 on each of
+the 100 public maps, using Gemini 3.5 Flash-Lite and the same Few-Shot
+prompt. The 100/100 responses parsed, with no duplicate cases. All tested
+paths were valid in all 100 cases. The saved responses were replayed offline
+through the original LLM-A*, goal weight 2 with waypoint weights 1 and 0.5,
+and true no-LLM weighted A*. The replay matched the pinned official A* and
+LLM-A* counts and lengths for all 100 cases under the common collision
+predicate. Recomputing the ablation from the raw responses gave byte-for-byte
+identical paired and summary outputs.
+
+Compared with original LLM-A*, the new `(goal=2, waypoint=0.5)` candidate
+had geometric-mean operation ratio 0.626, storage 0.775, length 0.999.
+Compared with the first `(2, 1)` candidate, its ratios were 0.858, 0.930,
+and 0.987 respectively. However, compared with no-LLM weighted A* at goal
+weight 2, the new candidate was **worse in all three metrics**: operations
+1.084 (95% interval 1.015-1.158), storage 1.034 (1.007-1.063), and length
+1.010 (1.003-1.017). This is an unfavorable result for the hypothesis that
+Gemini waypoints themselves improve search under these weights. The report
+should separate the gain from search weighting from any claim about LLM
+guidance; the latter is not established here. Detailed results and the
+1,000-case guidance are in `docs/next_improvement_experiment.md`.

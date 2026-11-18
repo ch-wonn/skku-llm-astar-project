@@ -1,9 +1,9 @@
 # Heuristic ablation and local confirmation
 
 This note separates an **exploratory** analysis on already-seen cases from a
-future **confirmation** run. The analysis needs no new LLM calls. The
-confirmation run needs the user's local Gemini key and must not be described
-as completed until it actually runs.
+subsequently completed **confirmation** run. The exploratory analysis needs
+no new LLM calls. The user ran the confirmation locally with their Gemini
+key; no key is stored in this repository.
 
 ## Why examine another direction?
 
@@ -46,7 +46,7 @@ To reproduce this ablation without an API key, run from the repository root:
 & 'C:\Users\dkdis\anaconda3\python.exe' scripts/ablate_heuristic_weights.py experiments/goal_weight_holdout/initial_waypoints.jsonl experiments/goal_weight_holdout/extension_waypoints.jsonl experiments/goal_weight_holdout/final_waypoints.jsonl --output results/ablation_89.jsonl --summary-output results/ablation_89_summary.json
 ```
 
-## Fixed next experiment: 100 new start/goal pairs
+## Fixed next experiment: 100 new start/goal pairs (completed)
 
 Before making any new calls, fix the candidate to `goal_weight=2` and
 `target_weight=0.5`. Use pair index 1 from each of the 100 maps, which was
@@ -59,6 +59,29 @@ Primary outcome: paired geometric-mean operation ratio of the new candidate
 over original LLM-A*. Secondary outcomes: storage, length, and comparisons
 with the first candidate and true weighted A*. Report sample SD and a 95%
 interval. Do not change weights after viewing the 100 results.
+
+The 100 local Gemini calls completed with 100 parseable responses and no
+duplicate case IDs. All seven methods produced valid paths in all 100 cases.
+The model calls took 966 seconds in total (9.66 seconds on average), plus
+the configured inter-call delay; offline analysis of all methods took about
+10 seconds. The saved responses and summary are tracked in
+`experiments/confirmation_pair1/`.
+
+| Method | Operations / original | Storage / original | Path length / original |
+| --- | ---: | ---: | ---: |
+| Original LLM-A* | 1.000 | 1.000 | 1.000 |
+| Goal 2, waypoint 1 | 0.730 | 0.833 | 1.012 |
+| Goal 2, waypoint 0.5 | 0.626 | 0.775 | 0.999 |
+| No-LLM weighted A*, goal 2 | 0.578 | 0.749 | 0.989 |
+
+The new candidate improved on our first candidate: paired operation ratio
+0.858 (95% log-ratio interval 0.780-0.943), storage 0.930 (0.894-0.968),
+length 0.987 (0.981-0.993). But compared with **no-LLM weighted A***, the
+new candidate was worse: operations 1.084 (1.015-1.158), storage 1.034
+(1.007-1.063), length 1.010 (1.003-1.017). All ratios are geometric means.
+The confirmation therefore does not support an LLM-specific performance
+benefit from these waypoint weights, despite improvement relative to the
+published LLM-A* heuristic. This is a critical limitation for the report.
 
 On this computer, from the repository root in PowerShell (the local `.env`
 already supplies the private key; never paste it into commands or Git):
@@ -85,7 +108,10 @@ search rules. Coordinate with the reproduction teammate to avoid paying for
 duplicate calls. The other two LLM-A* prompt rows, CoT and RePE, each need
 their own 1,000 responses if the team reproduces all three prompt rows.
 
-If the team needs a full Few-Shot collection, seed it with the 100 pair-1
+Do not make 1,000 additional API calls solely to promote the current
+candidate: the confirmation already shows that no-LLM weighted A* can be
+stronger. If the team needs a full Few-Shot collection for its reproduction,
+seed it with the 100 pair-1
 responses so they are not called again, then resume to 1,000:
 
 ```powershell

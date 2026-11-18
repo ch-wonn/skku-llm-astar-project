@@ -1,0 +1,427 @@
+{
+  "source_cases": 100,
+  "failed_calls": 0,
+  "variants": {
+    "original": {
+      "goal_weight": 1.0,
+      "target_weight": 1.0,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 1.0,
+          "arithmetic_mean": 1.0,
+          "sample_sd": 0.0,
+          "ci95_log_normal_approx": [
+            1.0,
+            1.0
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 1.0,
+          "arithmetic_mean": 1.0,
+          "sample_sd": 0.0,
+          "ci95_log_normal_approx": [
+            1.0,
+            1.0
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 1.0,
+          "arithmetic_mean": 1.0,
+          "sample_sd": 0.0,
+          "ci95_log_normal_approx": [
+            1.0,
+            1.0
+          ]
+        }
+      }
+    },
+    "goal_1_5": {
+      "goal_weight": 1.5,
+      "target_weight": 1.0,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 0.8950848633269627,
+          "arithmetic_mean": 0.9628637621784241,
+          "sample_sd": 0.3721928112757836,
+          "ci95_log_normal_approx": [
+            0.8276241718738435,
+            0.9680443609362976
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 0.9329729139955384,
+          "arithmetic_mean": 0.9525764733384896,
+          "sample_sd": 0.1856708872571434,
+          "ci95_log_normal_approx": [
+            0.8949013329644255,
+            0.9726641655186006
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 1.0035615240795757,
+          "arithmetic_mean": 1.0044383245686495,
+          "sample_sd": 0.04369299655648786,
+          "ci95_log_normal_approx": [
+            0.995461643286471,
+            1.0117273120518318
+          ]
+        }
+      }
+    },
+    "current_goal_2": {
+      "goal_weight": 2.0,
+      "target_weight": 1.0,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 0.7300906301068739,
+          "arithmetic_mean": 0.9386226979115839,
+          "sample_sd": 0.773047103572075,
+          "ci95_log_normal_approx": [
+            0.6276158914617548,
+            0.8492970548090938
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 0.8332116248549494,
+          "arithmetic_mean": 0.8836143914813578,
+          "sample_sd": 0.27424752216723447,
+          "ci95_log_normal_approx": [
+            0.7747256938304616,
+            0.8961128013721853
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 1.0120680102598578,
+          "arithmetic_mean": 1.013515948325416,
+          "sample_sd": 0.056430301573125875,
+          "ci95_log_normal_approx": [
+            1.0016361191469627,
+            1.0226085479661726
+          ]
+        }
+      }
+    },
+    "goal_3": {
+      "goal_weight": 3.0,
+      "target_weight": 1.0,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 0.5734322773516702,
+          "arithmetic_mean": 0.7354529728194615,
+          "sample_sd": 0.38899891714717016,
+          "ci95_log_normal_approx": [
+            0.48472491071793766,
+            0.6783735876534445
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 0.7567919193474216,
+          "arithmetic_mean": 0.8134882969747547,
+          "sample_sd": 0.25782174780539524,
+          "ci95_log_normal_approx": [
+            0.6962878337970566,
+            0.8225535208137589
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 1.0253952602639627,
+          "arithmetic_mean": 1.0282473807406352,
+          "sample_sd": 0.08281907679264407,
+          "ci95_log_normal_approx": [
+            1.010928308034149,
+            1.040069242710614
+          ]
+        }
+      }
+    },
+    "target_half": {
+      "goal_weight": 2.0,
+      "target_weight": 0.5,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 0.6262240420197019,
+          "arithmetic_mean": 0.8039359403964178,
+          "sample_sd": 0.449321124051925,
+          "ci95_log_normal_approx": [
+            0.5281729860597206,
+            0.7424774858878378
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 0.7747852042856204,
+          "arithmetic_mean": 0.8345555232347839,
+          "sample_sd": 0.26303937617178047,
+          "ci95_log_normal_approx": [
+            0.711265804251309,
+            0.8439771871386234
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 0.999002926285656,
+          "arithmetic_mean": 1.0000818139261052,
+          "sample_sd": 0.04824021134346205,
+          "ci95_log_normal_approx": [
+            0.9900307826134082,
+            1.0080563799166335
+          ]
+        }
+      }
+    },
+    "no_waypoint": {
+      "goal_weight": 2.0,
+      "target_weight": 0.0,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 0.5806542962062524,
+          "arithmetic_mean": 0.7661512679907923,
+          "sample_sd": 0.4185403371028938,
+          "ci95_log_normal_approx": [
+            0.4846927668158749,
+            0.6956146961253465
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 0.7490285862378191,
+          "arithmetic_mean": 0.8167320806207969,
+          "sample_sd": 0.2787181545438212,
+          "ci95_log_normal_approx": [
+            0.6832037778495957,
+            0.8211954342046062
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 0.9893431551960006,
+          "arithmetic_mean": 0.9901750581334878,
+          "sample_sd": 0.04057089375983025,
+          "ci95_log_normal_approx": [
+            0.9813563998528424,
+            0.997394910635883
+          ]
+        }
+      }
+    },
+    "weighted_astar": {
+      "goal_weight": 2.0,
+      "target_weight": 0.0,
+      "valid_paths": 100,
+      "over_original": {
+        "operation": {
+          "n": 100,
+          "geometric_mean": 0.5778288706181368,
+          "arithmetic_mean": 0.7619771762740651,
+          "sample_sd": 0.4144036178240739,
+          "ci95_log_normal_approx": [
+            0.4823894963001042,
+            0.6921506506271733
+          ]
+        },
+        "storage": {
+          "n": 100,
+          "geometric_mean": 0.7490285862378191,
+          "arithmetic_mean": 0.8167320806207969,
+          "sample_sd": 0.2787181545438212,
+          "ci95_log_normal_approx": [
+            0.6832037778495957,
+            0.8211954342046062
+          ]
+        },
+        "length": {
+          "n": 100,
+          "geometric_mean": 0.9893431551960006,
+          "arithmetic_mean": 0.9901750581334878,
+          "sample_sd": 0.04057089375983025,
+          "ci95_log_normal_approx": [
+            0.9813563998528424,
+            0.997394910635883
+          ]
+        }
+      }
+    }
+  },
+  "focused_comparisons": {
+    "target_half_over_current_goal_2": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 0.857734664979925,
+        "arithmetic_mean": 0.9351079924051394,
+        "sample_sd": 0.3181333295515366,
+        "ci95_log_normal_approx": [
+          0.7798893507558172,
+          0.9433501749898544
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 0.9298780539943856,
+        "arithmetic_mean": 0.9467937178898165,
+        "sample_sd": 0.1627834618674791,
+        "ci95_log_normal_approx": [
+          0.89353760242969,
+          0.9676964830010321
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 0.9870907055239821,
+        "arithmetic_mean": 0.9875609242915567,
+        "sample_sd": 0.029654974756250698,
+        "ci95_log_normal_approx": [
+          0.9810079230991984,
+          0.9932112045065593
+        ]
+      }
+    },
+    "target_half_over_no_waypoint": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 1.0784799942257945,
+        "arithmetic_mean": 1.1531547976321834,
+        "sample_sd": 0.5170120338110559,
+        "ci95_log_normal_approx": [
+          1.0092439694255753,
+          1.1524657398817795
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 1.0343866956762895,
+        "arithmetic_mean": 1.0448617287674888,
+        "sample_sd": 0.15787436372880792,
+        "ci95_log_normal_approx": [
+          1.0065759312603437,
+          1.0629658458576599
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 1.00976382263214,
+        "arithmetic_mean": 1.010469650368752,
+        "sample_sd": 0.03969775651602147,
+        "ci95_log_normal_approx": [
+          1.002511140221757,
+          1.0170689746860364
+        ]
+      }
+    },
+    "target_half_over_weighted_astar": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 1.0837534672675562,
+        "arithmetic_mean": 1.1577168782377214,
+        "sample_sd": 0.5153304159370883,
+        "ci95_log_normal_approx": [
+          1.014648492400927,
+          1.1575649957703291
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 1.0343866956762895,
+        "arithmetic_mean": 1.0448617287674888,
+        "sample_sd": 0.15787436372880792,
+        "ci95_log_normal_approx": [
+          1.0065759312603437,
+          1.0629658458576599
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 1.00976382263214,
+        "arithmetic_mean": 1.010469650368752,
+        "sample_sd": 0.03969775651602147,
+        "ci95_log_normal_approx": [
+          1.002511140221757,
+          1.0170689746860364
+        ]
+      }
+    },
+    "current_goal_2_over_weighted_astar": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 1.263506666473508,
+        "arithmetic_mean": 1.6919440248214013,
+        "sample_sd": 1.8779603371953721,
+        "ci95_log_normal_approx": [
+          1.1085771128275614,
+          1.440088450095328
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 1.112389620588395,
+        "arithmetic_mean": 1.1630159550068424,
+        "sample_sd": 0.3974394506022268,
+        "ci95_log_normal_approx": [
+          1.0521982400410275,
+          1.1760242708109299
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 1.0229696389412584,
+        "arithmetic_mean": 1.0242791442129189,
+        "sample_sd": 0.054085139962863,
+        "ci95_log_normal_approx": [
+          1.0130097948336807,
+          1.0330274075656105
+        ]
+      }
+    },
+    "goal_3_over_current_goal_2": {
+      "operation": {
+        "n": 100,
+        "geometric_mean": 0.7854261562947722,
+        "arithmetic_mean": 0.8616852726407004,
+        "sample_sd": 0.3454845380579145,
+        "ci95_log_normal_approx": [
+          0.7140930040703944,
+          0.8638850170434763
+        ]
+      },
+      "storage": {
+        "n": 100,
+        "geometric_mean": 0.908282958101033,
+        "arithmetic_mean": 0.9246343493795418,
+        "sample_sd": 0.16105481404821426,
+        "ci95_log_normal_approx": [
+          0.8732274639647104,
+          0.9447457461210846
+        ]
+      },
+      "length": {
+        "n": 100,
+        "geometric_mean": 1.0131683344093474,
+        "arithmetic_mean": 1.0146007493839104,
+        "sample_sd": 0.060337211554152496,
+        "ci95_log_normal_approx": [
+          1.003137865911964,
+          1.0232990984909132
+        ]
+      }
+    }
+  }
+}
