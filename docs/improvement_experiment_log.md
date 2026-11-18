@@ -142,3 +142,53 @@ the path-length ratio was 0.984. This was a small improvement over keeping
 all the longer response's points (1.700 and 0.988), but still increased
 operations substantially relative to the original prompt. It was not
 selected as the final method.
+
+## 2026-11-18: goal-distance weight, saved Gemini waypoints
+
+Motivation: the official LLM-A* search priority is
+`g(s) + d(s, goal) + d(s, target)`. An imperfect waypoint can pull expansion
+away from the final goal. We tested `g(s) + 2*d(s, goal) + d(s, target)` while
+keeping the same Gemini response and every other search rule fixed. This
+weight is a modest weighted-A* style change, not a new LLM prompting method.
+The exploratory 10-map split selected weight 2; those cases are excluded
+from the figures below. The selection and first held-out split were recorded
+before collecting its responses. After inspecting the first 20 cases, we
+fixed an additional 30-map extension with no parameter changes.
+
+The evaluation uses map IDs 11-60, pair index 0, on the public official
+50x30 dataset: 20 initial held-out and 30 subsequent extension cases. Gemini
+3.5 Flash-Lite used the pinned official GPT Few-Shot prompt at temperature
+0. There were 50/50 parseable model responses. Ordinary A*, original
+LLM-A*, and the candidate all returned collision-checked paths for 50/50
+cases. The candidate does not make extra model calls: both LLM-A* variants
+replay each case's identical saved response. Raw responses and paired results
+are in `experiments/goal_weight_holdout/`; exact commands are in
+`docs/goal_weight_experiment_plan.md`.
+
+| Split | Cases | Candidate/original operations | Storage | Path length |
+| --- | ---: | ---: | ---: | ---: |
+| Initial held-out | 20 | 0.768 (95% CI 0.561-1.052) | 0.852 (0.730-0.994) | 1.008 (0.993-1.024) |
+| Later extension | 30 | 0.869 (0.694-1.088) | 0.892 (0.796-1.000) | 1.004 (0.987-1.022) |
+| Pooled descriptive | 50 | 0.827 (0.689-0.994) | 0.876 (0.799-0.959) | 1.006 (0.994-1.018) |
+
+Ratios are paired geometric means; lower operations and storage are better,
+while 1.0 path length means equal length. Intervals are normal approximations
+on log ratios, not a guarantee for new maps. In the 50 pooled cases,
+candidate operation ratio had arithmetic mean 1.007 and sample SD 0.725.
+It improved operation counts in 32 cases, tied in 6, and worsened them in
+12. Thus the geometric mean gain is sensitive to large improvements in some
+maps, while the arithmetic mean shows no average operation gain. Candidate
+storage ratio had sample SD 0.261 and path-length ratio sample SD 0.045.
+Path length improved in 8, tied in 27, and worsened in 15 cases. The method
+is a measurable trade-off rather than a universal improvement.
+
+For context, original LLM-A*/ordinary A* pooled geometric means were 0.477
+operations, 0.688 storage, and 1.027 path length. The proposed candidate's
+gain is *relative to original LLM-A** on these cases, not a claim to beat
+ordinary A* in path optimality. A differential check against the pinned
+official A* and LLM-A* search classes matched operation, storage, and length
+on all 50 cases after injecting the same saved waypoints and collision
+predicate. This validates search-loop/accounting fidelity, but it does not
+independently validate the replacement geometry against Shapely. The sample
+is one pair per map, not the paper's full 1,000-case Table 1 setup; model
+and sample differences must be disclosed in the final report.

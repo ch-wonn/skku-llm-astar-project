@@ -46,8 +46,31 @@ commit `9414ed894d774f71c36e8c0afd0e20e6033b95b1`, with model calls
 and plotting removed so recorded responses can be reused. It retains the
 official heap-pop operation count and `g`-dictionary storage count, including
 blocked neighbors. The geometry is separately implemented with exact
-closed-segment intersections; it still requires differential checking
-against the installed official package before any final Table 1 claim.
+closed-segment intersections. The differential checker matches the official
+A* and LLM-A* search loops on all 50 confirmation/extension cases for
+operations, storage, and length, using saved waypoints. It replaces the
+official Shapely collision function with the same segment predicate used by
+the replay, so the check establishes search and counting parity conditional
+on collision geometry. The 50-case Gemini study is not a Table 1 reproduction.
 
 If the held-out result is unfavorable or mixed, report it and test another
 clearly motivated method. Do not relabel tuning cases as held-out results.
+
+## Reproduce this experiment
+
+The saved model responses and paired outcomes are tracked in
+`experiments/goal_weight_holdout/`. Offline summarization needs only Python
+3.11 standard-library packages. From the repository root:
+
+```text
+python scripts/compare_goal_weight.py --waypoints experiments/goal_weight_holdout/initial_waypoints.jsonl --output results/initial_paired_recomputed.jsonl
+python scripts/compare_goal_weight.py --waypoints experiments/goal_weight_holdout/extension_waypoints.jsonl --output results/extension_paired_recomputed.jsonl
+python scripts/summarize_goal_weight.py experiments/goal_weight_holdout/initial_paired.jsonl experiments/goal_weight_holdout/extension_paired.jsonl
+```
+
+The first two commands regenerate results from saved waypoints. The summary
+command needs no API key. To repeat the LLM calls, set `GEMINI_API_KEY`
+locally and run `collect_waypoints.py` with the fixed offsets/strides/limits
+above, `--prompt standard`, and model `gemini-3.5-flash-lite`. Model responses
+can change even with temperature 0. The official-source differential checker
+also needs the upstream repository at the pinned commit above.

@@ -1,6 +1,6 @@
 # LLM-A* reproduction project (work in progress)
 
-This repository starts the SWE3011 Introduction to AI (Fall 2026) reproduction assignment. **No LLM-A* experiment has been run or claimed yet.** The current runner validates the official data format and is prepared to record baseline runs; the final improved method and report are still to be developed by the team.
+This repository contains early SWE3011 Introduction to AI (Fall 2026) reproduction work. A 50-case Gemini waypoint experiment has compared ordinary A*, original LLM-A*, and one candidate search priority; it is documented in [the goal-weight experiment plan](docs/goal_weight_experiment_plan.md) and [experiment log](docs/improvement_experiment_log.md). The full 1,000-case Table 1 reproduction and integrated final report remain team work.
 
 ## Sources and scope
 
@@ -12,7 +12,7 @@ The paper uses 100 maps of size 50 × 30, each with 10 start/goal pairs (1,000 c
 
 ## Environment
 
-Use Python 3.10 on a machine with network access. The official repository pins the legacy `openai==0.27.2` interface and imports its Llama3 dependencies even for GPT runs. `requirements.txt` installs its source at the inspected commit and its declared dependencies. This installation has **not yet been verified end to end** in this workspace because network access is disabled.
+Use Python 3.11 on a machine with network access, matching the evaluation notice. The official repository pins the legacy `openai==0.27.2` interface and imports its Llama3 dependencies even for GPT runs. `requirements.txt` installs its source at the inspected commit and its declared dependencies. This installation has **not yet been verified end to end** in a clean Ubuntu 22.04 environment. The saved-waypoint improvement analysis uses only the Python standard library.
 
 ```bash
 python -m venv .venv
@@ -51,7 +51,7 @@ python scripts/summarize.py results/baseline_standard.jsonl
 1. Verify install and run one case with a valid API key; record exact package versions and any upstream errors.
 2. Preserve the baseline's callable `searching(query, filepath)` input/output contract on unseen maps while adapting the designated model connection. Test this with a hidden-style held-out query.
 3. Run the complete, paired 1,000-case Table 1 setting or document any deviation and the conflicting Canvas sample guidance. Never invent missing cases or results.
-4. Develop and evaluate an improvement against the same cases, report trade-offs and failures, and make the README match the final code.
+4. Integrate the tested goal-weight candidate with the team's final reproduction code, retain its measured trade-offs, and make the submission README match the final code.
 5. Have each student keep a factual, separate contribution record; the assignment requires an individual report of at least half a page. Do not share individual contribution reports between teammates.
 
 ## Attribution
