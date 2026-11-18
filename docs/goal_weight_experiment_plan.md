@@ -27,6 +27,11 @@ must discuss that risk and compare against ordinary A* and original LLM-A*.
 - Held-out confirmation: one fixed start/goal pair from each of maps 11-30
   (`--offset 110 --stride 10 --limit 20`). No candidate parameter is changed
   after seeing these results.
+- Prospective extension fixed after inspecting the 20-case result: one pair
+  from each of maps 31-60 (`--offset 310 --stride 10 --limit 30`). Keep goal
+  weight 2, the same prompt and model, and report these 30 separately as well
+  as pooled with maps 11-30. This adds precision; it does not erase the
+  initial 20-case outcome or make the selection split confirmatory.
 - Same model response is replayed for original LLM-A* (goal weight 1) and
   the candidate (goal weight 2). Ordinary A* runs on the same query.
 - Primary outcome: paired geometric-mean operation ratio, candidate over
