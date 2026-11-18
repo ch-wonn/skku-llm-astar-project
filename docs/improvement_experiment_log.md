@@ -224,3 +224,21 @@ earlier direction, we stop searching for further variants. The final report
 must still state that this is an 89-case, one-pair-per-map Gemini evaluation,
 not the 1,000-case Table 1 reproduction, and must discuss the 21 maps where
 the candidate increased operation count.
+
+## 2026-11-18: post-hoc heuristic ablation
+
+After the 89-case goal-weight study, we ran an offline ablation on the same
+saved Gemini responses to test whether the benefit was specifically due to
+LLM waypoints. This is explanatory, **not** an independent test for selecting
+a new final method. Detailed parameters and the next untested-pair plan are
+in `docs/next_improvement_experiment.md`.
+
+Compared with original LLM-A*, geometric-mean operation ratios were 0.975
+for goal weight 1.5, 0.780 for goal weight 2, and 0.620 for goal weight 3,
+all with waypoint weight 1. Goal weight 3 had path-length ratio 1.009, a
+larger detour than goal weight 2's 1.004. With goal weight 2 and waypoint
+weight 0.5, operations were 0.707 and path length 0.992. True no-LLM
+weighted A* at goal weight 2 achieved operations 0.704 and length 0.997.
+Thus reducing waypoint influence looks promising, but the current evidence
+does not show an operation advantage from the LLM waypoint itself. A new
+100-pair confirmation is needed before revising the selected method.

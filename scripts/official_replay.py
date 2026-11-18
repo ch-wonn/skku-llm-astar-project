@@ -50,7 +50,7 @@ def _official_targets(query, raw, obs):
     return targets
 
 
-def replay(query, waypoints=None, *, goal_weight=1.0):
+def replay(query, waypoints=None, *, goal_weight=1.0, target_weight=1.0):
     """Run original-style search; ``None`` waypoints selects ordinary A*.
 
     ``goal_weight=1`` is the original LLM-A* priority. Other positive values
@@ -58,6 +58,8 @@ def replay(query, waypoints=None, *, goal_weight=1.0):
     """
     if not math.isfinite(goal_weight) or goal_weight <= 0:
         raise ValueError("goal_weight must be positive and finite")
+    if not math.isfinite(target_weight) or target_weight < 0:
+        raise ValueError("target_weight must be nonnegative and finite")
     grid = Grid(query)
     start, goal = tuple(query["start"]), tuple(query["goal"])
     llm = waypoints is not None
@@ -73,8 +75,8 @@ def replay(query, waypoints=None, *, goal_weight=1.0):
     def f_value(state):
         h_goal = math.dist(state, goal)
         if llm:
-            return g[state] + goal_weight * h_goal + math.dist(state, target)
-        return g[state] + h_goal
+            return g[state] + goal_weight * h_goal + target_weight * math.dist(state, target)
+        return g[state] + goal_weight * h_goal
 
     def cost(a, b):
         if any(_intersects(a, b, c, d) for c, d in grid.segments):
