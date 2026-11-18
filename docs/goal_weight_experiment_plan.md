@@ -32,6 +32,12 @@ must discuss that risk and compare against ordinary A* and original LLM-A*.
   weight 2, the same prompt and model, and report these 30 separately as well
   as pooled with maps 11-30. This adds precision; it does not erase the
   initial 20-case outcome or make the selection split confirmatory.
+- Final untouched-map check fixed after inspecting the 50-case results: one
+  pair from each of maps 61-100 (`--offset 610 --stride 10 --limit 40`). Do
+  not adjust the method, prompt, model, or metric definitions after seeing
+  these cases. Report this 40-case set independently, then show all 90
+  evaluation cases together. This is the final candidate check; stop method
+  selection here and retain unfavorable outcomes.
 - Same model response is replayed for original LLM-A* (goal weight 1) and
   the candidate (goal weight 2). Ordinary A* runs on the same query.
 - Primary outcome: paired geometric-mean operation ratio, candidate over
