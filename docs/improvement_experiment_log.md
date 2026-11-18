@@ -192,3 +192,35 @@ predicate. This validates search-loop/accounting fidelity, but it does not
 independently validate the replacement geometry against Shapely. The sample
 is one pair per map, not the paper's full 1,000-case Table 1 setup; model
 and sample differences must be disclosed in the final report.
+
+## 2026-11-18: final untouched-map check and stopping decision
+
+Before collection we fixed the remaining dataset slice as `--offset 610
+--stride 10 --limit 40`, with the same Gemini model, Few-Shot prompt,
+temperature 0, and goal weight 2. The plan mistakenly described this as
+40 maps, IDs 61-100. The public dataset is indexed 0-99, so the selected
+slice contains **39 cases, maps 61-99**. We did not add a replacement case.
+All 39 calls were parseable. All 39 paths for each of A*, original LLM-A*,
+and the candidate passed collision validation. The pinned official search
+classes and offline replay matched operation, storage, and path length on
+all 39 cases under the common collision predicate.
+
+| Split | Cases | Candidate/original operations | Storage | Path length |
+| --- | ---: | ---: | ---: | ---: |
+| Final untouched maps | 39 | 0.724 (95% CI 0.568-0.923) | 0.800 (0.705-0.908) | 1.003 (0.985-1.020) |
+| All evaluation maps | 89 | 0.780 (0.673-0.904) | 0.842 (0.780-0.908) | 1.004 (0.994-1.015) |
+
+The final 39-case operation ratio arithmetic mean was 0.929, sample SD
+0.717; the candidate improved operations on 26 cases, tied on 4, and
+worsened on 9. For all 89 evaluation cases, operation ratio arithmetic mean
+was 0.973, sample SD 0.718, with 58 improvements, 10 ties, and 21 losses.
+The 89-case storage ratio sample SD was 0.271, and path-length ratio sample
+SD was 0.051. Original LLM-A*/ordinary A* ratios on the 89 cases were
+0.500 operations, 0.702 storage, and 1.031 path length (geometric means).
+The final untouched maps support the goal-weight candidate's efficiency
+effect, with a small, uncertain increase in path length. Because the method
+is simple and explainable and the independent final split agrees with the
+earlier direction, we stop searching for further variants. The final report
+must still state that this is an 89-case, one-pair-per-map Gemini evaluation,
+not the 1,000-case Table 1 reproduction, and must discuss the 21 maps where
+the candidate increased operation count.
