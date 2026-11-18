@@ -38,3 +38,17 @@ operations. Secondary: storage, path length, valid paths, gate activation
 rate, and measured preprocessing/search time. If the gate does not clearly
 beat the no-LLM control, reject it. Do not select a new threshold after
 seeing these results.
+
+## Prospective new-pair check
+
+After the 189-case exploratory run, the fixed gate reduced operations over
+no-LLM weighted A* by 1.7% overall, with only 28/189 cases activating it.
+The next check uses **pair index 2 on each of maps 0-99** (`--offset 2
+--stride 10 --limit 100`), which was not present in the previous experiments.
+Keep the gate and threshold exactly as above. Primary acceptance criterion:
+the paired 95% log-ratio interval for operations, gate over no-LLM weighted
+A*, lies below 1. Secondary checks: valid path ratio 100%, path-length
+geometric ratio no worse than 1.01, storage ratio, activation rate, and
+measured runtime. Report all 100 selected cases and any API failures. If
+the operation interval includes 1 or the other checks fail, do not claim a
+confirmed benefit over no-LLM weighted A*.
