@@ -36,13 +36,19 @@ def local_key():
     return None
 
 
-def make_prompt(query, method):
+def make_prompt(query, method, intermediate_count=None):
     """Use the upstream GPT prompt text for the chosen Table 1 technique."""
-    return PROMPTS[method].format(
+    original = PROMPTS[method].format(
         start=query["start"], goal=query["goal"],
         horizontal_barriers=query["horizontal_barriers"],
         vertical_barriers=query["vertical_barriers"],
     )
+    if intermediate_count is None:
+        return original
+    point_word = "waypoint" if intermediate_count == 1 else "waypoints"
+    return (f"For the final task, give exactly {intermediate_count} intermediate "
+            f"{point_word} between start and goal. Keep the same Generated Path "
+            "output format.\n\n" + original)
 
 
 def parse_waypoints(text):
@@ -92,23 +98,30 @@ def main():
                         help="First N cases for a pilot; default 20")
     parser.add_argument("--offset", type=int, default=0,
                         help="Skip this many cases for a pilot")
+    parser.add_argument("--stride", type=int, default=1,
+                        help="Take every Nth case after the offset")
+    parser.add_argument("--intermediate-count", type=int, default=None,
+                        help="Prompt experiment: request exactly N intermediate points")
     parser.add_argument("--all", action="store_true", help="Run all cases")
     parser.add_argument("--delay", type=float, default=4.0,
                         help="Seconds between API requests; adjust to your quota")
     parser.add_argument("--dry-run", action="store_true")
     args = parser.parse_args()
-    if args.limit < 1 or args.offset < 0 or args.delay < 0:
-        parser.error("--limit must be positive; --offset and --delay nonnegative")
+    if (args.limit < 1 or args.offset < 0 or args.stride < 1 or args.delay < 0
+            or (args.intermediate_count is not None and args.intermediate_count < 0)):
+        parser.error("Invalid limit, offset, stride, delay, or intermediate count")
     _, cases = load_cases(args.dataset)
-    if args.all and args.offset:
-        parser.error("--all requires --offset 0")
-    selected = cases if args.all else cases[args.offset:args.offset + args.limit]
+    if args.all and (args.offset or args.stride != 1):
+        parser.error("--all requires --offset 0 and --stride 1")
+    selected = cases if args.all else cases[args.offset::args.stride][:args.limit]
     if not selected:
         parser.error("No cases selected")
     print(f"Selected {len(selected)} cases; model={args.model}; "
-          f"prompt={args.prompt}; source={PROMPT_VERSION}")
+          f"prompt={args.prompt}; requested_intermediates={args.intermediate_count}; "
+          f"source={PROMPT_VERSION}")
     if args.dry_run:
-        print("Sample prompt:\n" + make_prompt(selected[0][2], args.prompt))
+        print("Sample prompt:\n" + make_prompt(
+            selected[0][2], args.prompt, args.intermediate_count))
         return
     key = local_key()
     if not key:
@@ -119,8 +132,10 @@ def main():
         for line in args.output.read_text(encoding="utf-8").splitlines():
             if line.strip():
                 row = json.loads(line)
-                if (row.get("model"), row.get("prompt_version"), row.get("prompt")) != (
-                        args.model, PROMPT_VERSION, args.prompt):
+                if (row.get("model"), row.get("prompt_version"), row.get("prompt"),
+                        row.get("requested_intermediates")) != (
+                        args.model, PROMPT_VERSION, args.prompt,
+                        args.intermediate_count):
                     parser.error("Existing output has a different model or prompt")
                 done.add((row["map_id"], row["pair_index"]))
     with args.output.open("a", encoding="utf-8") as stream:
@@ -130,11 +145,13 @@ def main():
             row = {"map_id": map_id, "pair_index": pair_index,
                    "model": args.model, "prompt_version": PROMPT_VERSION,
                    "prompt": args.prompt,
+                   "requested_intermediates": args.intermediate_count,
                    "status": "error", "query": query}
             started = time.monotonic()
             try:
                 response, usage = ask_gemini(key, args.model,
-                                             make_prompt(query, args.prompt))
+                                             make_prompt(query, args.prompt,
+                                                         args.intermediate_count))
                 row["response"] = response
                 row["usage"] = usage
                 row["waypoints"] = parse_waypoints(response)

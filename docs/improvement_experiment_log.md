@@ -98,3 +98,47 @@ checks. This again argues against selecting switch timing alone as the
 performance improvement. The prototype's accounting still differs from the
 official code, and these five-case figures are not report-ready performance
 estimates.
+
+## 2026-11-18: waypoint-count prompt pilot
+
+Question: Does asking for more intermediate waypoints improve final search
+efficiency? We used Gemini 3.5 Flash-Lite, the official GPT Few-Shot prompt,
+temperature 0, and 10 fixed cases (one start/goal pair from each of maps
+1-10). Four conditions used the same cases: original prompt, plus the same
+prompt prefixed with a request for exactly 1, 3, or 5 intermediate points.
+This changes only the count instruction. All 40 calls produced parseable
+lists and all final paths passed collision checking.
+
+The tracked source records are in `experiments/count_pilot/`. To recompute
+the table from those saved LLM responses without making API calls:
+
+```text
+python scripts/analyze_waypoint_count.py --input-dir experiments/count_pilot --output results/count_paired.jsonl
+```
+
+The API collection used `collect_waypoints.py` with `--prompt standard
+--offset 10 --stride 10 --limit 10` for each condition, adding
+`--intermediate-count 1`, `3`, or `5` except for the original prompt.
+
+| Condition | Mean valid intermediate points | Exact count followed | Operations / original prompt | Path length / original prompt |
+| --- | ---: | ---: | ---: | ---: |
+| Original prompt | 1.5 | - | 1.000 | 1.000 |
+| Request 1 | 0.8 | 9/10 | 1.161 | 0.991 |
+| Request 3 | 1.9 | 0/10 | 1.563 | 0.991 |
+| Request 5 | 3.3 | 1/10 | 1.700 | 0.988 |
+
+Ratios are geometric means of paired cases. The model generally returned
+one fewer intermediate point than requested for the 3 and 5 conditions.
+Asking for more points slightly shortened paths but substantially increased
+search operations in this 10-case pilot. This does not support a blanket
+increase in waypoint count as an efficiency improvement. The prototype's
+operation accounting differs from the official repository, and 10 cases are
+too few to claim a reliable population effect.
+
+Follow-on diagnostic: from each five-point-request response, retain at most
+two intermediate points with the largest turning angles, preserving order.
+Compared with the original prompt, the paired operation ratio was 1.647 and
+the path-length ratio was 0.984. This was a small improvement over keeping
+all the longer response's points (1.700 and 0.988), but still increased
+operations substantially relative to the original prompt. It was not
+selected as the final method.
