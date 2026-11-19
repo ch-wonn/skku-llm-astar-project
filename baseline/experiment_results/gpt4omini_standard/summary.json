@@ -1,0 +1,49 @@
+{
+  "expected_per_method": 1000,
+  "methods": {
+    "astar": {
+      "attempted": 1000,
+      "valid": 1000,
+      "invalid": 0,
+      "error": 0,
+      "unattempted": 0,
+      "valid_percent_of_attempted": 100.0,
+      "valid_percent_of_all_1000": 100.0
+    },
+    "llm": {
+      "attempted": 1000,
+      "valid": 1000,
+      "invalid": 0,
+      "error": 0,
+      "unattempted": 0,
+      "valid_percent_of_attempted": 100.0,
+      "valid_percent_of_all_1000": 100.0
+    }
+  },
+  "paired_valid": 1000,
+  "ratios_on_paired_valid_only": {
+    "operation": {
+      "n": 1000,
+      "excluded": 0,
+      "geometric_mean_percent": 34.31538343191994
+    },
+    "storage": {
+      "n": 1000,
+      "excluded": 0,
+      "geometric_mean_percent": 56.23259601913805
+    },
+    "length": {
+      "n": 1000,
+      "excluded": 0,
+      "geometric_mean_percent": 102.01647999370395
+    }
+  },
+  "api_usage": {
+    "recorded_responses": 1000,
+    "prompt_tokens": 587080,
+    "completion_tokens": 45753,
+    "responses_missing_usage": 0,
+    "estimated_usd_no_cache_discount": 0.1155138,
+    "note": "Recorded responses only; interrupted or failed requests may incur unrecorded charges. Rates: 2026-11-19."
+  }
+}

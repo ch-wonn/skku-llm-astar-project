@@ -1,0 +1,102 @@
+{
+  "index": 161,
+  "map_id": 16,
+  "pair_index": 1,
+  "query": {
+    "range_x": [
+      0,
+      51
+    ],
+    "range_y": [
+      0,
+      31
+    ],
+    "horizontal_barriers": [
+      [
+        16,
+        33,
+        36
+      ],
+      [
+        9,
+        33,
+        35
+      ]
+    ],
+    "vertical_barriers": [
+      [
+        8,
+        8,
+        21
+      ],
+      [
+        30,
+        1,
+        22
+      ],
+      [
+        22,
+        22,
+        25
+      ],
+      [
+        40,
+        6,
+        31
+      ]
+    ],
+    "start": [
+      9,
+      23
+    ],
+    "goal": [
+      7,
+      18
+    ]
+  },
+  "method": "llm",
+  "status": "valid",
+  "result": {
+    "operation": 6,
+    "storage": 25,
+    "length": 5.82842712474619,
+    "llm_output": [
+      [
+        9,
+        23
+      ],
+      [
+        7,
+        18
+      ]
+    ]
+  },
+  "path": [
+    [
+      9,
+      23
+    ],
+    [
+      8,
+      22
+    ],
+    [
+      7,
+      21
+    ],
+    [
+      7,
+      20
+    ],
+    [
+      7,
+      19
+    ],
+    [
+      7,
+      18
+    ]
+  ],
+  "validation_error": null,
+  "elapsed_seconds_including_plot": 0.9653294979943894
+}
