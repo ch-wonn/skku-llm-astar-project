@@ -1,0 +1,38 @@
+{
+  "dataset_sha256": "856705d9c27eef8d457c5d79ba33ecd0eb2230835d36a20836376c6f64c6efdc",
+  "model": "gpt-4o-mini",
+  "prompt": "standard",
+  "expected_cases": 1000,
+  "timeout_seconds_per_method": 180,
+  "automatic_retries": 0,
+  "python": "3.10.12",
+  "packages": {
+    "openai": "0.27.2",
+    "numpy": "2.2.6",
+    "matplotlib": "3.10.9",
+    "shapely": "2.1.2"
+  },
+  "source_sha256": {
+    "run_dataset.py": "872de83598bb2fc85b331c1ccf0b57e40f3a692cf32343d0fc2daaed07b93b57",
+    "llmastar/__init__.py": "f332c683e0df4219c39762b2d27fb35e937ef1efa0ee247401c688e25e15be99",
+    "llmastar/dataset/__init__.py": "435abddb88793d4d3c6ea6f4d32be7844b45c6478144d7778dff23cb626f487b",
+    "llmastar/dataset/dataset.py": "0cb8cf5b28cb71be712e29ed0641d6a33bb78c49b047a680dfe0a46eba4ce6a3",
+    "llmastar/env/__init__.py": "23997e5b210a30fd1918ce158c5466a18d0beeff5344256bf056acf6cff02f1b",
+    "llmastar/env/search/__init__.py": "86874d43baaebf9271d4fbdf2052099d671380a23e7f487dbb2ebec0a5cbff4b",
+    "llmastar/env/search/env.py": "b23b38c908913464f6f6f52b8fc5805f3103012e422400e809a66b324ca6d6ba",
+    "llmastar/env/search/plotting.py": "e965f32f6f8dd417a0970c512dd6ab982e549ee0656a9b155ad458df76a1803f",
+    "llmastar/model/__init__.py": "f07dffebb94fdafa80bfa53385b016385b95b0a820a4a0f55fda96dafda3da49",
+    "llmastar/model/chatgpt.py": "8f0a04ed9c1e36e9596fc356768aef3db09f5db31b5a3c1d280ac9777e69b5ef",
+    "llmastar/model/llama3.py": "d8f71f18b1ecf6fea445d7c4c915a6ce007fd4ebdc79481daa18b7111d38efbb",
+    "llmastar/pather/__init__.py": "3b00dd8a63937250906cfe2b5453db5d5a8683ef30930749e1da09080c4bb6fc",
+    "llmastar/pather/a_star/__init__.py": "8fd9f34344bc8449f8c205fc0e60a5a2a88b3d7ba50756a72875853f1fe0c39d",
+    "llmastar/pather/a_star/a_star.py": "ff8d57eab468979d8d22001d4e2e40d28e932f357804f7cf554f25cc1c4fd797",
+    "llmastar/pather/llm_a_star/__init__.py": "2c7f85635695548f03ba2165278cdd6c8bd62f0b2c55e7846875889a13a9bcb4",
+    "llmastar/pather/llm_a_star/llm_a_star.py": "58f0b2c49c3ab0c34c2c9c11cc3e8f4de146fc8c78518af024a9ecaf854691d5",
+    "llmastar/pather/llm_a_star/prompt.py": "8a947438479729bd2b0c28751188612dddab79401cbfb79aa48a6e43f21ca6e8",
+    "llmastar/utils/__init__.py": "2107cbff9544633f4257ca69da45ad128a0d4e720902758c0dbe93ec797282d3",
+    "llmastar/utils/filter.py": "236c3046f15b4ff718975c5dcbdada8656b9e69641a087bf1c12f83acc43d49d",
+    "llmastar/utils/utils.py": "2407a48082a32d93d1785c44490fb72b9e37b6df5e6107f24bbfb2b680a31fb1",
+    "llmastar/version.py": "2b49c99622c4f2eaef51238db190b8c7e11e587529287bd3ef80c54884fa3d92"
+  }
+}
