@@ -75,7 +75,10 @@ def replay(query, waypoints=None, *, goal_weight=1.0, target_weight=1.0):
     def f_value(state):
         h_goal = math.dist(state, goal)
         if llm:
-            return g[state] + goal_weight * h_goal + target_weight * math.dist(state, target)
+            # Upstream computes g + heuristic, with both distances summed
+            # inside heuristic. Preserve that grouping for heap tie ordering.
+            return g[state] + (goal_weight * h_goal
+                               + target_weight * math.dist(state, target))
         return g[state] + goal_weight * h_goal
 
     def cost(a, b):

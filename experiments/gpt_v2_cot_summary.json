@@ -1,0 +1,267 @@
+{
+  "source_branch": "baseline/jooha-reproduction-v2",
+  "source_commit": "1aba737500008778868dde1896ea3c8514c84ff5",
+  "model": "gpt-4o-mini",
+  "prompt": "cot",
+  "attempted": 1000,
+  "baseline_valid": 971,
+  "baseline_error": 29,
+  "intermediate_waypoint_cases": 909,
+  "gate_active": 178,
+  "recorded_metric_matches": {
+    "astar": 945,
+    "original": 948
+  },
+  "recorded_metric_mismatch_examples": {
+    "astar": [
+      256,
+      334,
+      337,
+      339,
+      430,
+      436,
+      438,
+      439,
+      470,
+      472,
+      473,
+      601,
+      606,
+      608,
+      609,
+      654,
+      657,
+      778,
+      793,
+      798
+    ],
+    "original": [
+      240,
+      243,
+      253,
+      256,
+      332,
+      333,
+      334,
+      337,
+      338,
+      430,
+      436,
+      439,
+      601,
+      603,
+      606,
+      608,
+      609,
+      657,
+      778,
+      791
+    ]
+  },
+  "recorded_path_matches": {
+    "astar": 966,
+    "original": 966
+  },
+  "valid_paths": {
+    "astar": 971,
+    "original": 971,
+    "goal_2": 971,
+    "goal_2_target_half": 971,
+    "weighted_astar": 971,
+    "selective_gate": 971
+  },
+  "ratios": {
+    "original_over_astar": {
+      "operation": {
+        "n": 971,
+        "geometric_mean": 0.4794666441706609,
+        "arithmetic_mean": 0.6725130066164052,
+        "sample_sd": 0.6584330273444075,
+        "map_bootstrap_ci95": [
+          0.44663506317913654,
+          0.5147125660181453
+        ]
+      },
+      "storage": {
+        "n": 971,
+        "geometric_mean": 0.6643873772086208,
+        "arithmetic_mean": 0.7306785125907554,
+        "sample_sd": 0.3644546629654502,
+        "map_bootstrap_ci95": [
+          0.643112721752295,
+          0.6863432739301144
+        ]
+      },
+      "length": {
+        "n": 971,
+        "geometric_mean": 1.0257004111179506,
+        "arithmetic_mean": 1.0266344675590888,
+        "sample_sd": 0.04578757741509193,
+        "map_bootstrap_ci95": [
+          1.0229526965845563,
+          1.0284710032899638
+        ]
+      }
+    },
+    "goal_2_over_original": {
+      "operation": {
+        "n": 971,
+        "geometric_mean": 0.8420430900033714,
+        "arithmetic_mean": 1.000221591197307,
+        "sample_sd": 0.7516139510066909,
+        "map_bootstrap_ci95": [
+          0.808631894954789,
+          0.8743722827571022
+        ]
+      },
+      "storage": {
+        "n": 971,
+        "geometric_mean": 0.900016142937955,
+        "arithmetic_mean": 0.9346605268447975,
+        "sample_sd": 0.24704857190241708,
+        "map_bootstrap_ci95": [
+          0.8819767896039138,
+          0.9181970379782513
+        ]
+      },
+      "length": {
+        "n": 971,
+        "geometric_mean": 1.004913780779327,
+        "arithmetic_mean": 1.0057266181512319,
+        "sample_sd": 0.04118318901223536,
+        "map_bootstrap_ci95": [
+          1.0022728996264492,
+          1.0075771989564957
+        ]
+      }
+    },
+    "goal_2_target_half_over_original": {
+      "operation": {
+        "n": 971,
+        "geometric_mean": 0.7387129661104811,
+        "arithmetic_mean": 0.8471094412787377,
+        "sample_sd": 0.40103259994783,
+        "map_bootstrap_ci95": [
+          0.7093833108623012,
+          0.7682357512473498
+        ]
+      },
+      "storage": {
+        "n": 971,
+        "geometric_mean": 0.8540203582308531,
+        "arithmetic_mean": 0.8876021816369856,
+        "sample_sd": 0.21392809017622527,
+        "map_bootstrap_ci95": [
+          0.8366797750061403,
+          0.8715003418887851
+        ]
+      },
+      "length": {
+        "n": 971,
+        "geometric_mean": 0.9970463680216096,
+        "arithmetic_mean": 0.9976751073365931,
+        "sample_sd": 0.03547249756695564,
+        "map_bootstrap_ci95": [
+          0.9947628178242117,
+          0.9994197010349635
+        ]
+      }
+    },
+    "goal_2_over_weighted_astar": {
+      "operation": {
+        "n": 971,
+        "geometric_mean": 1.1649022682903232,
+        "arithmetic_mean": 1.4518143862456927,
+        "sample_sd": 1.3623563576114157,
+        "map_bootstrap_ci95": [
+          1.1186898071312108,
+          1.214410076501818
+        ]
+      },
+      "storage": {
+        "n": 971,
+        "geometric_mean": 1.0592033130345029,
+        "arithmetic_mean": 1.0956597519232045,
+        "sample_sd": 0.3214215351846724,
+        "map_bootstrap_ci95": [
+          1.0424824056356734,
+          1.0763030142379952
+        ]
+      },
+      "length": {
+        "n": 971,
+        "geometric_mean": 1.0101749588736646,
+        "arithmetic_mean": 1.011165103176108,
+        "sample_sd": 0.0460879709483067,
+        "map_bootstrap_ci95": [
+          1.0074953129265376,
+          1.012944498873588
+        ]
+      }
+    },
+    "goal_2_target_half_over_weighted_astar": {
+      "operation": {
+        "n": 971,
+        "geometric_mean": 1.0219529381021661,
+        "arithmetic_mean": 1.0930357220567424,
+        "sample_sd": 0.5509872725222275,
+        "map_bootstrap_ci95": [
+          1.0019582714699118,
+          1.043744949765168
+        ]
+      },
+      "storage": {
+        "n": 971,
+        "geometric_mean": 1.0050721866878696,
+        "arithmetic_mean": 1.0165288871429348,
+        "sample_sd": 0.17039200834878587,
+        "map_bootstrap_ci95": [
+          0.9959475995859389,
+          1.014093211907977
+        ]
+      },
+      "length": {
+        "n": 971,
+        "geometric_mean": 1.0022663566522823,
+        "arithmetic_mean": 1.0027543441847864,
+        "sample_sd": 0.03166928130702016,
+        "map_bootstrap_ci95": [
+          1.0003587337487674,
+          1.0040960533207175
+        ]
+      }
+    },
+    "selective_gate_over_weighted_astar": {
+      "operation": {
+        "n": 971,
+        "geometric_mean": 0.983740317388829,
+        "arithmetic_mean": 0.9890635653045347,
+        "sample_sd": 0.08790021062616372,
+        "map_bootstrap_ci95": [
+          0.9761227997700282,
+          0.9907799798063248
+        ]
+      },
+      "storage": {
+        "n": 971,
+        "geometric_mean": 0.9929995030611266,
+        "arithmetic_mean": 0.9943312448371464,
+        "sample_sd": 0.04807281826917768,
+        "map_bootstrap_ci95": [
+          0.9894170060403901,
+          0.9964855173338585
+        ]
+      },
+      "length": {
+        "n": 971,
+        "geometric_mean": 0.9991995786153801,
+        "arithmetic_mean": 0.9993230579632401,
+        "sample_sd": 0.015021781296004988,
+        "map_bootstrap_ci95": [
+          0.9981530606937783,
+          1.000110340057141
+        ]
+      }
+    }
+  }
+}
