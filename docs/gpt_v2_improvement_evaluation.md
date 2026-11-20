@@ -19,7 +19,8 @@ LLM-A*의 탐색량과 경로 길이를 개선할 수 있는가**이다. Gemini 
 - 원본: `f = g + d(goal) + d(current waypoint)`.
 - 목적지 비중 2: `f = g + 2d(goal) + d(current waypoint)`.
 - 목적지 비중 2, 경유점 비중 0.5: `f = g + 2d(goal) + 0.5d(current waypoint)`.
-- LLM 없는 대조군: `f = g + 2d(goal)`인 가중 A*.
+- LLM 없는 대조군: `f = g + 2d(goal)`인 **static** 가중 A*.
+  원 논문 Table 1의 가중치 0.99 감쇠를 쓰는 Dynamic WA*와 다르다.
 - 선택적 경유점: 출발점과 목표점의 직선이 장애물과 교차하고, LLM 경유점
   하나를 통한 두 직선은 모두 교차하지 않으며 우회율이 1.25 이하일 때만
   그 경유점을 사용한다. 이때 목적지 비중 2, 경유점 비중 0.5를 쓰고,

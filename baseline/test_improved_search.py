@@ -9,7 +9,8 @@ import sys
 from pathlib import Path
 
 from llmastar.env.search import plotting
-from improved_search import ImprovedLLMAStar, WeightedWaypointLLMAStar
+from improved_search import (ImprovedLLMAStar, StartVisibleWaypointLLMAStar,
+                             WeightedWaypointLLMAStar)
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
@@ -42,8 +43,8 @@ def main():
     try:
         # One gate-off and one gate-on example from each prompt.
         examples = (("standard", 0), ("standard", 4),
-                    ("cot", 0), ("cot", 4),
-                    ("repe", 0), ("repe", 4))
+                    ("cot", 0), ("cot", 2), ("cot", 4),
+                    ("repe", 0), ("repe", 2), ("repe", 4))
         for prompt, index in examples:
             item = json.loads((root / prompt / "cases" / f"{index:04d}.json").read_text())
             if item["status"] != "valid":
@@ -75,6 +76,21 @@ def main():
             assert math.isclose(weighted_actual["length"],
                                 weighted_expected["length"], abs_tol=1e-10)
             assert weighted.extract_path(weighted.PARENT) == weighted_expected["path"]
+            relaxed = StartVisibleWaypointLLMAStar.__new__(StartVisibleWaypointLLMAStar)
+            relaxed.llm, relaxed.prompt = "gpt", prompt
+            relaxed.model = FakeModel(points)
+            relaxed_expected = gated_replay(query, points,
+                                            require_goal_visible=False)
+            with contextlib.redirect_stdout(io.StringIO()):
+                relaxed_actual = relaxed.searching(copy.deepcopy(query),
+                                                   filepath="ignored.png")
+            assert relaxed.model.calls == 1
+            assert relaxed.selected_waypoint == relaxed_expected["selected_waypoint"]
+            assert relaxed_actual["operation"] == relaxed_expected["operation"]
+            assert relaxed_actual["storage"] == relaxed_expected["storage"]
+            assert math.isclose(relaxed_actual["length"],
+                                relaxed_expected["length"], abs_tol=1e-10)
+            assert relaxed.extract_path(relaxed.PARENT) == relaxed_expected["path"]
             print(f"{prompt} case {index}: gate={alg.selected_waypoint is not None}, "
                   f"operation={actual['operation']}")
     finally:

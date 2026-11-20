@@ -7,7 +7,8 @@
 먼저 보세요. Gemini 결과는 방법 개발을 위한 예비 실험이고, 최종
 성능 비교는 팀원의 수정된 GPT-4o mini `reproduction_v2` 응답을
 사용합니다. Git 커밋 순서와 오래된 결과 폴더를 보고 최종 성능표를
-만들지 마세요.
+만들지 마세요. 저장된 응답을 이용한 추가 알고리즘 시도는
+[후속 탐색 실험 기록](docs/gpt_followup_search_experiments.md)에 있습니다.
 
 ## Current reproduction status
 
@@ -71,6 +72,7 @@ python baseline/run_query.py --method astar --query /path/to/query.json --output
 python baseline/run_query.py --method llm --prompt standard --query /path/to/query.json --output /path/to/llm.json
 python baseline/run_query.py --method weighted_waypoint --prompt standard --query /path/to/query.json --output /path/to/weighted_waypoint.json
 python baseline/run_query.py --method selective_waypoint --prompt standard --query /path/to/query.json --output /path/to/selective_waypoint.json
+python baseline/run_query.py --method start_visible_waypoint --prompt standard --query /path/to/query.json --output /path/to/start_visible_waypoint.json
 ```
 
 Input: a JSON object containing `start`, `goal`, `range_x`, `range_y`,
@@ -79,7 +81,10 @@ Input: a JSON object containing `start`, `goal`, `range_x`, `range_y`,
 methods use the same GPT call. `weighted_waypoint` keeps all filtered waypoints
 with goal weight 2 and waypoint weight 0.5. `selective_waypoint` chooses at
 most one eligible waypoint and otherwise uses the LLM-free weighted A*
-priority. Their audit files record path validity; the selective audit also
+priority. `start_visible_waypoint` relaxes its visibility test to the first
+leg and has a measured path-length trade-off. The LLM-free control here uses
+a **fixed** goal weight of 2; the paper's Table 1 uses a distinct Dynamic WA*
+with a 0.99 weight decay. Their audit files record path validity; the gate audits also
 records the original and selected waypoints. Diagnostics are
 separate `.audit.json` files. The underlying
 `searching(query, filepath)` method interface is retained. No particular map

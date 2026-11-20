@@ -32,6 +32,8 @@ class ImprovedLLMAStar(WeightedWaypointLLMAStar):
     selects at most one LLM waypoint. No additional model request is made.
     """
 
+    REQUIRE_GOAL_VISIBLE = True
+
     def _initialize_parameters(self, input_data):
         # Upstream mutates range maxima, so retain the untouched map for gating.
         self._gate_query = copy.deepcopy(input_data)
@@ -40,7 +42,9 @@ class ImprovedLLMAStar(WeightedWaypointLLMAStar):
     def _initialize_llm_paths(self):
         super()._initialize_llm_paths()
         self.source_waypoints = list(self.target_list)
-        chosen, eligible = select_waypoint(self._gate_query, self.target_list)
+        chosen, eligible = select_waypoint(
+            self._gate_query, self.target_list,
+            require_goal_visible=self.REQUIRE_GOAL_VISIBLE)
         self.selected_waypoint = chosen
         self.eligible_waypoints = eligible
         if chosen is None:
@@ -56,3 +60,9 @@ class ImprovedLLMAStar(WeightedWaypointLLMAStar):
                                        self.s_goal[1] - state[1])
             return self.g[state] + GOAL_WEIGHT * goal_distance
         return super().f_value(state)
+
+
+class StartVisibleWaypointLLMAStar(ImprovedLLMAStar):
+    """Use a short LLM bypass when its first leg is collision-free."""
+
+    REQUIRE_GOAL_VISIBLE = False

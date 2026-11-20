@@ -10,7 +10,8 @@ from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 from reproduction_support import AStar, AuditedLLMAStar, validate_path
-from improved_search import ImprovedLLMAStar, WeightedWaypointLLMAStar
+from improved_search import (ImprovedLLMAStar, StartVisibleWaypointLLMAStar,
+                             WeightedWaypointLLMAStar)
 
 
 def save(path, value):
@@ -23,7 +24,8 @@ def main():
     ap.add_argument('--query',type=Path,required=True)
     ap.add_argument('--output',type=Path,required=True)
     ap.add_argument('--method',choices=['astar','llm','weighted_waypoint',
-                                        'selective_waypoint','improved'],default='llm')
+                                        'selective_waypoint','start_visible_waypoint',
+                                        'improved'],default='llm')
     ap.add_argument('--prompt',choices=['standard','cot','repe'],default='standard')
     ap.add_argument('--max-tokens',type=int,default=1000)
     args=ap.parse_args()
@@ -38,12 +40,15 @@ def main():
         alg = AuditedLLMAStar(llm='gpt', prompt=args.prompt)
     elif args.method == 'weighted_waypoint':
         alg = WeightedWaypointLLMAStar(llm='gpt', prompt=args.prompt)
+    elif args.method == 'start_visible_waypoint':
+        alg = StartVisibleWaypointLLMAStar(llm='gpt', prompt=args.prompt)
     else:
         alg = ImprovedLLMAStar(llm='gpt', prompt=args.prompt)
     original_query = copy.deepcopy(q)
     result=alg.searching(q,filepath=str(args.output.with_suffix('.png')))
     save(args.output,result)
-    if args.method in ('weighted_waypoint', 'selective_waypoint', 'improved'):
+    if args.method in ('weighted_waypoint', 'selective_waypoint',
+                       'start_visible_waypoint', 'improved'):
         path = alg.extract_path(alg.PARENT)
         valid, reason, normalized = validate_path(path, original_query, result)
         audit = {

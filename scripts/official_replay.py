@@ -50,7 +50,8 @@ def _official_targets(query, raw, obs):
     return targets
 
 
-def replay(query, waypoints=None, *, goal_weight=1.0, target_weight=1.0):
+def replay(query, waypoints=None, *, goal_weight=1.0, target_weight=1.0,
+           switch_mode="neighbor"):
     """Run original-style search; ``None`` waypoints selects ordinary A*.
 
     ``goal_weight=1`` is the original LLM-A* priority. Other positive values
@@ -60,6 +61,8 @@ def replay(query, waypoints=None, *, goal_weight=1.0, target_weight=1.0):
         raise ValueError("goal_weight must be positive and finite")
     if not math.isfinite(target_weight) or target_weight < 0:
         raise ValueError("target_weight must be nonnegative and finite")
+    if switch_mode not in ("neighbor", "expanded"):
+        raise ValueError("switch_mode must be neighbor or expanded")
     grid = Grid(query)
     start, goal = tuple(query["start"]), tuple(query["goal"])
     llm = waypoints is not None
@@ -87,21 +90,29 @@ def replay(query, waypoints=None, *, goal_weight=1.0, target_weight=1.0):
         return math.dist(a, b)
 
     heapq.heappush(open_heap, (f_value(start), start))
+
+    def advance_target():
+        nonlocal target_index, target, open_heap
+        target_index += 1
+        if target_index < len(targets):
+            target = targets[target_index]
+        refreshed = []
+        for _, queued_state in open_heap:
+            heapq.heappush(refreshed, (f_value(queued_state), queued_state))
+        open_heap = refreshed
+
     while open_heap:
         _, state = heapq.heappop(open_heap)
         closed.append(state)
         if state == goal:
             break
+        if llm and switch_mode == "expanded" and state == target and goal != target:
+            advance_target()
         for dx, dy in MOTIONS:
             neighbor = (state[0] + dx, state[1] + dy)
-            if llm and neighbor == target and goal != target:
-                target_index += 1
-                if target_index < len(targets):
-                    target = targets[target_index]
-                refreshed = []
-                for _, queued_state in open_heap:
-                    heapq.heappush(refreshed, (f_value(queued_state), queued_state))
-                open_heap = refreshed
+            if (llm and switch_mode == "neighbor" and neighbor == target
+                    and goal != target):
+                advance_target()
             if neighbor in closed:
                 continue
             tentative = g[state] + cost(state, neighbor)

@@ -16,7 +16,7 @@ TARGET_WEIGHT = 0.5
 MAX_DETOUR = 1.25
 
 
-def select_waypoint(query, raw_waypoints):
+def select_waypoint(query, raw_waypoints, *, require_goal_visible=True):
     """Return the one eligible bypass point and the number of eligible points."""
     grid = Grid(query)
     start, goal = tuple(query["start"]), tuple(query["goal"])
@@ -32,7 +32,8 @@ def select_waypoint(query, raw_waypoints):
         options = []
         for point in targets[1:-1]:
             detour = (math.dist(start, point) + math.dist(point, goal)) / direct_distance
-            if detour <= MAX_DETOUR and clear(start, point) and clear(point, goal):
+            if (detour <= MAX_DETOUR and clear(start, point)
+                    and (not require_goal_visible or clear(point, goal))):
                 options.append((detour, point))
         eligible = len(options)
         if options:
@@ -40,9 +41,10 @@ def select_waypoint(query, raw_waypoints):
     return chosen, eligible
 
 
-def gated_replay(query, raw_waypoints):
+def gated_replay(query, raw_waypoints, *, require_goal_visible=True):
     started = time.perf_counter()
-    chosen, eligible = select_waypoint(query, raw_waypoints)
+    chosen, eligible = select_waypoint(
+        query, raw_waypoints, require_goal_visible=require_goal_visible)
     preprocess_seconds = time.perf_counter() - started
     start, goal = tuple(query["start"]), tuple(query["goal"])
     search_started = time.perf_counter()
