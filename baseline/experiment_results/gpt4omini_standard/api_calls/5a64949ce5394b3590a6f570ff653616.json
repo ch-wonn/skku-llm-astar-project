@@ -1,0 +1,24 @@
+{
+  "index": 933,
+  "method": "llm",
+  "model_requested": "gpt-4o-mini",
+  "model_returned": "gpt-4o-mini-2024-07-18",
+  "elapsed_seconds": 0.940469884997583,
+  "usage": {
+    "prompt_tokens": 568,
+    "completion_tokens": 45,
+    "total_tokens": 613,
+    "prompt_tokens_details": {
+      "cached_tokens": 0,
+      "audio_tokens": 0
+    },
+    "completion_tokens_details": {
+      "reasoning_tokens": 0,
+      "audio_tokens": 0,
+      "accepted_prediction_tokens": 0,
+      "rejected_prediction_tokens": 0
+    }
+  },
+  "finish_reason": "stop",
+  "response_text": "To find a path from the start point [44, 14] to the goal point [49, 1] while navigating around the specified barriers, we need to analyze the barriers and determine a route that avoids them."
+}

@@ -11,3 +11,10 @@ data/
 results/
 *.png
 *.zip
+
+# Local experiment lock and Windows download metadata
+/baseline/experiment_results/gpt4omini_standard/.run.lock
+/baseline/run_dataset.py:Zone.Identifier
+
+# Accidental local file
+/eline with GPT-4o mini"
