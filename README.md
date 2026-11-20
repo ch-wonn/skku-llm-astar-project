@@ -2,6 +2,13 @@
 
 This repository contains early SWE3011 Introduction to AI (Fall 2026) reproduction work. An 89-case Gemini waypoint experiment has compared ordinary A*, original LLM-A*, and one candidate search priority; it is documented in [the goal-weight experiment plan](docs/goal_weight_experiment_plan.md) and [experiment log](docs/improvement_experiment_log.md). A later [heuristic ablation and 100-case confirmation](docs/next_improvement_experiment.md) found that reduced waypoint guidance improves on the original LLM-A* but is weaker than a no-LLM weighted A* control. A [selective waypoint gate](docs/selective_waypoint_plan.md) showed no confirmed gain over that control on a new 100-case check. The full 1,000-case Table 1 reproduction and integrated final report remain team work.
 
+The teammate's GPT-4o mini branch is merged into `main`, including 1,000
+recorded cases. An audit found **zero intermediate LLM waypoints** in that
+archive, caused by the inherited newline stop setting. Its valid paths
+cannot be presented as a successful LLM-waypoint reproduction. The
+`improvement` branch contains a fix and [rerun guidance](baseline/README_DATASET.md);
+the corrected GPT run has not yet been made.
+
 ## Sources and scope
 
 - Assignment: `SWE3011_41 Assignment Notice.pdf` and the two Canvas clarification posts (course materials; do not redistribute without permission).
@@ -34,6 +41,11 @@ On Windows PowerShell, create the folder with `New-Item -ItemType Directory -For
 Check the expected 100 maps and 1,000 pairs printed by validation before a full experiment. The script accepts any map with the official `range_x`, `range_y`, barrier, and `start_goal` fields; it does not hard-code individual maps.
 
 ## Baseline run
+
+The teammate's GPT-4o mini implementation is under `baseline/`; use
+`baseline/README_DATASET.md` for the current GPT pilot and full-run commands.
+The commands below describe an earlier independent reproduction runner and
+are not the commands for regenerating the teammate's archived results.
 
 Set `OPENAI_API_KEY` in your shell or an untracked local environment file. Never put a key in code, a command argument, Git, or the submission ZIP. The original `ChatGPT` class uses `openai.Completion` with `gpt-3.5-turbo-instruct` for waypoints, so the current runner uses the **original GPT connection and model**, not the course's eventual GPT-4o mini evaluation model. Updating this connection while preserving the official input/output contract is an outstanding team task.
 

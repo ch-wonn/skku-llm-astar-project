@@ -67,13 +67,17 @@ class LLMAStar:
         query = self._generate_llm_query(start, goal)
 
         if self.llm == 'gpt':
-            response = self.model.ask(prompt=query, max_tokens=1000)
+            # The upstream ChatGPT.ask default stops at the first newline.
+            # The requested "Generated Path" is often on a later line.
+            response = self.model.ask(prompt=query, max_tokens=1000, stop=None)
         elif self.llm == 'llama':
             response = self.model.ask(prompt=query)
         else:
             raise ValueError("Invalid LLM model.")
 
         nodes = list_parse(response)
+        if not isinstance(nodes, list) or nodes == [[0, 0], [0, 0]]:
+            raise ValueError("LLM response contains no parseable waypoint list")
         self.target_list = self._filter_valid_nodes(nodes)
 
         if not self.target_list or self.target_list[0] != self.s_start:

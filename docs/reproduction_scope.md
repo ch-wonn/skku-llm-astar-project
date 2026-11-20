@@ -28,6 +28,21 @@ quota allow. Keep the model, prompt, temperature, output cap, source commit,
 map set, and failures in the report.
 
 The current `collect_waypoints.py` stores model responses for this purpose.
-The current `waypoint_search.py` is an offline prototype and does not yet
-reproduce the official code's metrics; no pilot number should be copied into
-the final Table 1 without aligned implementation and validation.
+`waypoint_search.py` is an early standalone prototype with different metric
+counting. The later `official_replay.py` follows the published search loop;
+after correcting zero-length barrier handling, its original A*/LLM-A*
+operation, storage, and length matched the teammate's archived implementation
+on all 1,000 public cases. Only results from that aligned replay may be used
+for a paper-style performance comparison.
+
+## 2026-11-20 GPT baseline integration status
+
+The teammate's merged GPT-4o mini run completed 1,000 public cases, but its
+archived responses contain no parseable waypoint lists and every resulting
+LLM-A* output has only start and goal. The original newline stop setting
+and silent parser fallback explain this. It is an execution and path-validity
+record, **not** a valid LLM waypoint reproduction. A connection fix is on
+the `improvement` branch; it passed an offline mock but requires a new GPT
+pilot and then a fresh 1,000-case run with the key holder. Use a new output
+directory so the archived run and provenance remain intact. The fixed-run
+instructions are in `baseline/README_DATASET.md`.

@@ -233,12 +233,12 @@ LLM waypoints. This is explanatory, **not** an independent test for selecting
 a new final method. Detailed parameters and the next untested-pair plan are
 in `docs/next_improvement_experiment.md`.
 
-Compared with original LLM-A*, geometric-mean operation ratios were 0.975
-for goal weight 1.5, 0.780 for goal weight 2, and 0.620 for goal weight 3,
+Compared with original LLM-A*, geometric-mean operation ratios were 0.976
+for goal weight 1.5, 0.780 for goal weight 2, and 0.621 for goal weight 3,
 all with waypoint weight 1. Goal weight 3 had path-length ratio 1.009, a
 larger detour than goal weight 2's 1.004. With goal weight 2 and waypoint
 weight 0.5, operations were 0.707 and path length 0.992. True no-LLM
-weighted A* at goal weight 2 achieved operations 0.704 and length 0.997.
+weighted A* at goal weight 2 achieved operations 0.705 and length 0.997.
 Thus reducing waypoint influence looks promising, but the current evidence
 does not show an operation advantage from the LLM waypoint itself. A new
 100-pair confirmation is needed before revising the selected method.
@@ -257,7 +257,7 @@ identical paired and summary outputs.
 
 Compared with original LLM-A*, the new `(goal=2, waypoint=0.5)` candidate
 had geometric-mean operation ratio 0.626, storage 0.775, length 0.999.
-Compared with the first `(2, 1)` candidate, its ratios were 0.858, 0.930,
+Compared with the first `(2, 1)` candidate, its ratios were 0.857, 0.930,
 and 0.987 respectively. However, compared with no-LLM weighted A* at goal
 weight 2, the new candidate was **worse in all three metrics**: operations
 1.084 (95% interval 1.015-1.158), storage 1.034 (1.007-1.063), and length
@@ -288,7 +288,7 @@ the gate's geometry preprocessing around 0.075 ms per case. These timings
 are descriptive and depend on the local Windows/Python environment.
 
 The gate and acceptance criterion were fixed before collecting a new pair-2
-case from each map. That prospective check is underway; no claim of a
+case from each map. That prospective check is reported below; no claim of a
 confirmed LLM contribution is made from these 189 cases alone.
 
 ## 2026-11-18: selective gate, prospective pair-2 check
@@ -310,3 +310,33 @@ improvement and did not tune it further. This reconciles the favorable but
 small 189-case exploratory result with the new-sample finding. The negative
 result is retained in `docs/selective_waypoint_plan.md` and the raw
 responses in `experiments/selective_waypoint/`.
+
+## 2026-11-20: merged GPT baseline audit and geometry correction
+
+The teammate's `main` branch now includes a complete GPT-4o mini standard
+prompt run on all 1,000 public cases. All 2,000 A*/LLM-A* paths were marked
+valid. However, an audit of the 1,000 archived API responses found **zero
+responses containing a nested waypoint list** or `Generated Path` marker.
+All 1,000 `llm_output` lists contain only start and goal. The inherited
+`ChatGPT.ask` default stops generation at the first newline, and the
+upstream parser silently supplies dummy coordinates when it cannot find a
+list. Consequently this archive does not measure GPT waypoint guidance;
+the recorded LLM-A* operation, storage, and length exactly match a no-LLM
+weighted A* with goal weight 2 on every case. The archive is retained as
+evidence but must not be presented as successful LLM-waypoint reproduction.
+
+We modified the GPT waypoint call on the improvement branch to pass
+`stop=None` and to raise an error when no parseable waypoint list is
+returned. A mock response regression check passes; a live GPT rerun with
+the teammate's key is still required. The original 1,000-case folder must
+not be overwritten.
+
+The cross-check also found one search geometry difference: Shapely 2.1.2
+does not report intersection with a zero-length barrier segment, whereas
+our earlier integer segment predicate did. We now ignore those degenerate
+segments, matching the archived official search exactly across all 1,000
+A* and LLM-A* cases. Recomputing the saved Gemini experiments changed
+operation counts in 6 method/case pairs across the 200-case extension and
+confirmation groups; storage, path lengths, validity, and the rounded main conclusions
+were unchanged. Corrected paired files and summaries replace the earlier
+derived figures, while raw model responses remain untouched.

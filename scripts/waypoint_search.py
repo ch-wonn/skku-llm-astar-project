@@ -69,9 +69,11 @@ class Grid:
         self.xmax, self.ymax = self.xhi - 1, self.yhi - 1
         self.segments = []
         for y, x1, x2 in query["horizontal_barriers"]:
-            self.segments.append(((x1, y), (x2, y)))
+            if x1 != x2:
+                self.segments.append(((x1, y), (x2, y)))
         for x, y1, y2 in query["vertical_barriers"]:
-            self.segments.append(((x, y1), (x, y2)))
+            if y1 != y2:
+                self.segments.append(((x, y1), (x, y2)))
         self.segments.extend((
             ((self.xlo, self.ylo), (self.xlo, self.ymax)),
             ((self.xmax, self.ylo), (self.xmax, self.ymax)),

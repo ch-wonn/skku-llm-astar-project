@@ -1,0 +1,19 @@
+{
+  "model_requested": {
+    "gpt-4o-mini": 1000
+  },
+  "model_returned": {
+    "gpt-4o-mini-2024-07-18": 1000
+  },
+  "recorded_api_responses": 1000,
+  "responses_with_nested_waypoint_list": 0,
+  "responses_with_generated_path_marker": 0,
+  "response_finish_reasons": {
+    "stop": 1000
+  },
+  "valid_case_records": 1000,
+  "intermediate_waypoints_per_case": {
+    "0": 1000
+  },
+  "start_goal_only_cases": 1000
+}

@@ -15,12 +15,12 @@ the identical 89 saved Gemini responses:
 | Rule | Operations / original | Storage / original | Path length / original |
 | --- | ---: | ---: | ---: |
 | Original `1, 1` | 1.000 | 1.000 | 1.000 |
-| Goal weight 1.5, waypoint 1 | 0.975 | 0.960 | 1.003 |
+| Goal weight 1.5, waypoint 1 | 0.976 | 0.960 | 1.003 |
 | Goal weight 2, waypoint 1 (first candidate) | 0.780 | 0.842 | 1.004 |
-| Goal weight 3, waypoint 1 | 0.620 | 0.756 | 1.009 |
+| Goal weight 3, waypoint 1 | 0.621 | 0.756 | 1.009 |
 | Goal weight 2, waypoint 0.5 | 0.707 | 0.794 | 0.992 |
-| Goal weight 2, waypoint 0 | 0.706 | 0.798 | 0.997 |
-| Weighted A* without LLM, goal weight 2 | 0.704 | 0.798 | 0.997 |
+| Goal weight 2, waypoint 0 | 0.707 | 0.798 | 0.997 |
+| Weighted A* without LLM, goal weight 2 | 0.705 | 0.798 | 0.997 |
 
 All entries are paired geometric means, with valid paths in 89/89 cases for
 every rule. The waypoint-0 rule retains the LLM-A* target-switching code;
@@ -29,7 +29,7 @@ differences among 89 cases show why both are included.
 
 The `2, 0.5` rule improves the first candidate on the already-seen cases:
 operation ratio 0.906, storage ratio 0.943, and length ratio 0.987. However,
-its operation ratio against true no-LLM weighted A* is 1.003. Thus these
+its operation ratio against true no-LLM weighted A* is 1.002. Thus these
 cases do **not** establish that LLM waypoints cause an operation reduction.
 Weight 3 further reduces operations but lengthens paths. Because these
 comparisons were made after examining the 89 cases, none may be presented as
@@ -70,15 +70,15 @@ the configured inter-call delay; offline analysis of all methods took about
 | Method | Operations / original | Storage / original | Path length / original |
 | --- | ---: | ---: | ---: |
 | Original LLM-A* | 1.000 | 1.000 | 1.000 |
-| Goal 2, waypoint 1 | 0.730 | 0.833 | 1.012 |
+| Goal 2, waypoint 1 | 0.731 | 0.833 | 1.012 |
 | Goal 2, waypoint 0.5 | 0.626 | 0.775 | 0.999 |
 | No-LLM weighted A*, goal 2 | 0.578 | 0.749 | 0.989 |
 
 The new candidate improved on our first candidate: paired operation ratio
-0.858 (95% log-ratio interval 0.780-0.943), storage 0.930 (0.894-0.968),
+0.857 (95% log-ratio interval 0.779-0.942), storage 0.930 (0.893-0.968),
 length 0.987 (0.981-0.993). But compared with **no-LLM weighted A***, the
-new candidate was worse: operations 1.084 (1.015-1.158), storage 1.034
-(1.007-1.063), length 1.010 (1.003-1.017). All ratios are geometric means.
+new candidate was worse: operations 1.084 (1.015-1.157), storage 1.034
+(1.006-1.063), length 1.010 (1.003-1.017). All ratios are geometric means.
 The confirmation therefore does not support an LLM-specific performance
 benefit from these waypoint weights, despite improvement relative to the
 published LLM-A* heuristic. This is a critical limitation for the report.

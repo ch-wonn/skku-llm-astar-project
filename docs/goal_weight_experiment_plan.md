@@ -61,6 +61,15 @@ official Shapely collision function with the same segment predicate used by
 the replay, so the check establishes search and counting parity conditional
 on collision geometry. The 89-case Gemini study is not a Table 1 reproduction.
 
+2026-11-20 update: a direct comparison with the teammate's Shapely-based
+GPT-4o mini baseline exposed zero-length barrier handling. After skipping
+those degenerate segments, replayed A* and original LLM-A* operation,
+storage, and length match the archived implementation on all 1,000 cases.
+The saved Gemini responses were replayed again with this correction; only
+6 method/case operation counts changed in this 89-case experiment, leaving
+the rounded conclusions unchanged. The GPT archive has no intermediate
+waypoints and cannot yet confirm any improvement with GPT guidance.
+
 If the held-out result is unfavorable or mixed, report it and test another
 clearly motivated method. Do not relabel tuning cases as held-out results.
 

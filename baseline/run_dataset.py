@@ -108,6 +108,14 @@ def summarize(out, cases):
             'unattempted': len(cases)-len(rows),
             'valid_percent_of_attempted': 100*valid/len(rows) if rows else None,
             'valid_percent_of_all_1000': 100*valid/len(cases)}
+    llm_valid = [r for (i, method), r in records.items()
+                 if method == 'llm' and r['status'] == 'valid']
+    report['llm_waypoints'] = {
+        'valid_cases_with_intermediate_waypoint': sum(
+            len(r['result']['llm_output']) > 2 for r in llm_valid),
+        'valid_cases_start_goal_only': sum(
+            len(r['result']['llm_output']) == 2 for r in llm_valid),
+    }
     paired = [(records[(i, 'astar')], records[(i, 'llm')])
               for i in range(len(cases))
               if all((i, m) in records and records[(i, m)]['status'] == 'valid'
