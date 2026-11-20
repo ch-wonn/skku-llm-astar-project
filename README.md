@@ -1,5 +1,14 @@
 # LLM-A* reproduction and improvement project
 
+## 보고서 작성자는 여기부터
+
+**최신 통합 작업은 `improvement` 브랜치에 있습니다.** 보고서의 실험
+흐름과 사용할 수치는 [보고서 담당자 안내](docs/REPORT_HANDOFF.md)를
+먼저 보세요. Gemini 결과는 방법 개발을 위한 예비 실험이고, 최종
+성능 비교는 팀원의 수정된 GPT-4o mini `reproduction_v2` 응답을
+사용합니다. Git 커밋 순서와 오래된 결과 폴더를 보고 최종 성능표를
+만들지 마세요.
+
 ## Current reproduction status
 
 The first 1,000-case GPT-4o mini run in
@@ -60,22 +69,28 @@ For an unseen query using the baseline schema:
 ```bash
 python baseline/run_query.py --method astar --query /path/to/query.json --output /path/to/astar.json
 python baseline/run_query.py --method llm --prompt standard --query /path/to/query.json --output /path/to/llm.json
-python baseline/run_query.py --method improved --prompt standard --query /path/to/query.json --output /path/to/improved.json
+python baseline/run_query.py --method weighted_waypoint --prompt standard --query /path/to/query.json --output /path/to/weighted_waypoint.json
+python baseline/run_query.py --method selective_waypoint --prompt standard --query /path/to/query.json --output /path/to/selective_waypoint.json
 ```
 
 Input: a JSON object containing `start`, `goal`, `range_x`, `range_y`,
 `horizontal_barriers`, `vertical_barriers`. The output includes `operation`,
-`storage`, `length` and `llm_output` for the LLM methods. Improved search uses
-the same GPT call, then selects at most one eligible waypoint; its audit file
-records the original and selected waypoints and path validity. Diagnostics are
+`storage`, `length` and `llm_output` for the LLM methods. Both improvement
+methods use the same GPT call. `weighted_waypoint` keeps all filtered waypoints
+with goal weight 2 and waypoint weight 0.5. `selective_waypoint` chooses at
+most one eligible waypoint and otherwise uses the LLM-free weighted A*
+priority. Their audit files record path validity; the selective audit also
+records the original and selected waypoints. Diagnostics are
 separate `.audit.json` files. The underlying
 `searching(query, filepath)` method interface is retained. No particular map
 count is required for single-query execution.
 
 ## Scope and team integration
 
-The improved method is implemented in `baseline/improved_search.py` and checked
-against the offline replay on saved GPT responses. Reproduce its offline
+Both improvement candidates are implemented in `baseline/improved_search.py`
+and checked against the offline replay on saved GPT responses. The main
+report comparison is `weighted_waypoint` versus the original LLM-A*; the
+selective method is an additional experiment. Reproduce their offline
 statistics with, for example:
 
 ```bash

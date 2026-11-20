@@ -9,11 +9,12 @@ import sys
 from pathlib import Path
 
 from llmastar.env.search import plotting
-from improved_search import ImprovedLLMAStar
+from improved_search import ImprovedLLMAStar, WeightedWaypointLLMAStar
 
 SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 from selective_waypoint import gated_replay
+from official_replay import replay
 
 
 class DummyPlot:
@@ -60,6 +61,20 @@ def main():
             assert actual["storage"] == expected["storage"]
             assert math.isclose(actual["length"], expected["length"], abs_tol=1e-10)
             assert alg.extract_path(alg.PARENT) == expected["path"]
+            weighted = WeightedWaypointLLMAStar.__new__(WeightedWaypointLLMAStar)
+            weighted.llm, weighted.prompt = "gpt", prompt
+            weighted.model = FakeModel(points)
+            weighted_expected = replay(query, points, goal_weight=2,
+                                       target_weight=0.5)
+            with contextlib.redirect_stdout(io.StringIO()):
+                weighted_actual = weighted.searching(copy.deepcopy(query),
+                                                     filepath="ignored.png")
+            assert weighted.model.calls == 1
+            assert weighted_actual["operation"] == weighted_expected["operation"]
+            assert weighted_actual["storage"] == weighted_expected["storage"]
+            assert math.isclose(weighted_actual["length"],
+                                weighted_expected["length"], abs_tol=1e-10)
+            assert weighted.extract_path(weighted.PARENT) == weighted_expected["path"]
             print(f"{prompt} case {index}: gate={alg.selected_waypoint is not None}, "
                   f"operation={actual['operation']}")
     finally:

@@ -10,7 +10,7 @@ from pathlib import Path
 import matplotlib
 matplotlib.use('Agg')
 from reproduction_support import AStar, AuditedLLMAStar, validate_path
-from improved_search import ImprovedLLMAStar
+from improved_search import ImprovedLLMAStar, WeightedWaypointLLMAStar
 
 
 def save(path, value):
@@ -22,7 +22,8 @@ def main():
     ap=argparse.ArgumentParser(description=__doc__)
     ap.add_argument('--query',type=Path,required=True)
     ap.add_argument('--output',type=Path,required=True)
-    ap.add_argument('--method',choices=['astar','llm','improved'],default='llm')
+    ap.add_argument('--method',choices=['astar','llm','weighted_waypoint',
+                                        'selective_waypoint','improved'],default='llm')
     ap.add_argument('--prompt',choices=['standard','cot','repe'],default='standard')
     ap.add_argument('--max-tokens',type=int,default=1000)
     args=ap.parse_args()
@@ -35,21 +36,27 @@ def main():
         alg = AStar()
     elif args.method == 'llm':
         alg = AuditedLLMAStar(llm='gpt', prompt=args.prompt)
+    elif args.method == 'weighted_waypoint':
+        alg = WeightedWaypointLLMAStar(llm='gpt', prompt=args.prompt)
     else:
         alg = ImprovedLLMAStar(llm='gpt', prompt=args.prompt)
     original_query = copy.deepcopy(q)
     result=alg.searching(q,filepath=str(args.output.with_suffix('.png')))
     save(args.output,result)
-    if args.method == 'improved':
+    if args.method in ('weighted_waypoint', 'selective_waypoint', 'improved'):
         path = alg.extract_path(alg.PARENT)
         valid, reason, normalized = validate_path(path, original_query, result)
-        save(args.output.with_suffix('.audit.json'), {
+        audit = {
             'path_valid': valid, 'invalid_reason': reason, 'path': normalized,
-            'source_waypoints': alg.source_waypoints,
-            'selected_waypoint': alg.selected_waypoint,
-            'eligible_waypoints': alg.eligible_waypoints,
-            'gate_active': alg.selected_waypoint is not None,
-        })
+            'source_waypoints': getattr(alg, 'source_waypoints', alg.target_list),
+        }
+        if isinstance(alg, ImprovedLLMAStar):
+            audit.update({
+                'selected_waypoint': alg.selected_waypoint,
+                'eligible_waypoints': alg.eligible_waypoints,
+                'gate_active': alg.selected_waypoint is not None,
+            })
+        save(args.output.with_suffix('.audit.json'), audit)
         if not valid:
             raise RuntimeError(f'Improved path validation failed: {reason}')
     elif hasattr(alg,'audit'):

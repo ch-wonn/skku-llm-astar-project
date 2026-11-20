@@ -13,7 +13,19 @@ from selective_waypoint import GOAL_WEIGHT, TARGET_WEIGHT, select_waypoint
 from llmastar.pather import LLMAStar
 
 
-class ImprovedLLMAStar(LLMAStar):
+class WeightedWaypointLLMAStar(LLMAStar):
+    """Use every filtered GPT waypoint with goal weight 2, waypoint weight 0.5."""
+
+    def f_value(self, state):
+        goal_distance = math.hypot(self.s_goal[0] - state[0],
+                                   self.s_goal[1] - state[1])
+        target_distance = math.hypot(self.s_target[0] - state[0],
+                                     self.s_target[1] - state[1])
+        return self.g[state] + (GOAL_WEIGHT * goal_distance
+                                + TARGET_WEIGHT * target_distance)
+
+
+class ImprovedLLMAStar(WeightedWaypointLLMAStar):
     """Use the original GPT prompt/API and search loop with a waypoint gate.
 
     The original model response is parsed and filtered by LLMAStar. The gate
@@ -39,11 +51,8 @@ class ImprovedLLMAStar(LLMAStar):
         self.s_target = self.target_list[1]
 
     def f_value(self, state):
-        goal_distance = math.hypot(self.s_goal[0] - state[0],
-                                   self.s_goal[1] - state[1])
         if self.selected_waypoint is None:
+            goal_distance = math.hypot(self.s_goal[0] - state[0],
+                                       self.s_goal[1] - state[1])
             return self.g[state] + GOAL_WEIGHT * goal_distance
-        target_distance = math.hypot(self.s_target[0] - state[0],
-                                     self.s_target[1] - state[1])
-        return self.g[state] + (GOAL_WEIGHT * goal_distance
-                                + TARGET_WEIGHT * target_distance)
+        return super().f_value(state)
