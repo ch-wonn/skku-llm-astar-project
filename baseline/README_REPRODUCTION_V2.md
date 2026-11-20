@@ -54,8 +54,8 @@ export OPENAI_MODEL="gpt-4o-mini"
 ## 데이터와 A*
 
 ```bash
-python baseline/run_reproduction.py --validate-only --require-public-count --out baseline/experiment_results/reproduction_v2/astar
-python baseline/run_reproduction.py --method astar --require-public-count --out baseline/experiment_results/reproduction_v2/astar
+python baseline/run_reproduction.py --validate-only --require-public-count --out baseline/experiment_results/reproduction_fresh/astar
+python baseline/run_reproduction.py --method astar --require-public-count --out baseline/experiment_results/reproduction_fresh/astar
 ```
 
 기본 데이터는 `baseline/dataset/environment_50_30.json`이다.
@@ -68,9 +68,9 @@ python baseline/run_reproduction.py --method astar --require-public-count --out 
 지도에 걸쳐 검사하며, 이후 full run은 나머지 모든 문제를 실행한다.
 
 ```bash
-python baseline/run_reproduction.py --method llm --prompt standard --limit 10 --require-public-count --out baseline/experiment_results/reproduction_v2/standard
-python baseline/run_reproduction.py --method llm --prompt cot --limit 10 --require-public-count --out baseline/experiment_results/reproduction_v2/cot
-python baseline/run_reproduction.py --method llm --prompt repe --limit 10 --require-public-count --out baseline/experiment_results/reproduction_v2/repe
+python baseline/run_reproduction.py --method llm --prompt standard --limit 10 --require-public-count --out baseline/experiment_results/reproduction_fresh/standard
+python baseline/run_reproduction.py --method llm --prompt cot --limit 10 --require-public-count --out baseline/experiment_results/reproduction_fresh/cot
+python baseline/run_reproduction.py --method llm --prompt repe --limit 10 --require-public-count --out baseline/experiment_results/reproduction_fresh/repe
 ```
 
 전체 실행 전 api_calls/의 finish_reason과 response_text,
@@ -84,9 +84,9 @@ cases/의 error_type 및 waypoint_audit를 확인한다.
 ## 전체 실행
 
 ```bash
-python baseline/run_reproduction.py --method llm --prompt standard --require-public-count --out baseline/experiment_results/reproduction_v2/standard
-python baseline/run_reproduction.py --method llm --prompt cot --require-public-count --out baseline/experiment_results/reproduction_v2/cot
-python baseline/run_reproduction.py --method llm --prompt repe --require-public-count --out baseline/experiment_results/reproduction_v2/repe
+python baseline/run_reproduction.py --method llm --prompt standard --require-public-count --out baseline/experiment_results/reproduction_fresh/standard
+python baseline/run_reproduction.py --method llm --prompt cot --require-public-count --out baseline/experiment_results/reproduction_fresh/cot
+python baseline/run_reproduction.py --method llm --prompt repe --require-public-count --out baseline/experiment_results/reproduction_fresh/repe
 ```
 
 저장된 문제는 성공/실패 모두 건너뛴다. 중단된 미저장 문제만 같은
@@ -110,7 +110,7 @@ python baseline/run_reproduction.py --method llm --prompt repe --require-public-
 ## 통계
 
 ```bash
-python baseline/summarize_reproduction.py --root baseline/experiment_results/reproduction_v2
+python baseline/summarize_reproduction.py --root baseline/experiment_results/reproduction_fresh
 ```
 
 네 디렉터리 모두 1,000개 기록이 있어야 최종 집계한다.
@@ -192,3 +192,14 @@ experiment_results/reproduction_v2/summary/statistics.json에 기록했다.
 
 이전 gpt4omini_standard 결과는 줄바꿈 종료 및 파싱 실패 시
 대체값 처리 문제로 최종 성능 비교에서 제외했다.
+
+## 저장된 결과와 새 실험 구분
+
+제출한 실험 기록은 experiment_results/reproduction_v2/에 있다.
+위 실행 명령은 새 실험용 reproduction_fresh/에 결과를 저장한다.
+처음 실행할 때 이 폴더는 존재하지 않거나 비어 있어야 한다.
+중단된 동일 실험을 이어갈 때만 같은 출력 폴더를 사용한다.
+이미 완료한 실험을 다시 수행하려면 네 조건 모두에 대해 새로운
+공통 상위 폴더를 지정하고 통계 명령의 --root도 함께 변경한다.
+새 실험의 통계는 reproduction_fresh/summary/에 생성된다.
+기존 reproduction_v2/ 기록은 삭제하거나 덮어쓰지 않는다.
