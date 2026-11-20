@@ -6,7 +6,9 @@ import io
 import json
 import math
 import sys
+import tempfile
 from pathlib import Path
+from unittest import mock
 
 from llmastar.env.search import plotting
 from improved_search import (ImprovedLLMAStar, StartVisibleWaypointLLMAStar,
@@ -16,6 +18,7 @@ SCRIPTS = Path(__file__).resolve().parents[1] / "scripts"
 sys.path.insert(0, str(SCRIPTS))
 from selective_waypoint import gated_replay
 from official_replay import replay
+import run_query
 
 
 class DummyPlot:
@@ -93,6 +96,36 @@ def main():
             assert relaxed.extract_path(relaxed.PARENT) == relaxed_expected["path"]
             print(f"{prompt} case {index}: gate={alg.selected_waypoint is not None}, "
                   f"operation={actual['operation']}")
+
+        # Exercise the README's final single-query command without a live API.
+        item = json.loads((root / "standard" / "cases" / "0000.json").read_text())
+        points = item["result"]["llm_output"]
+        expected = gated_replay(item["query"], points,
+                                require_goal_visible=False)
+
+        def fake_search(*args, **kwargs):
+            alg = StartVisibleWaypointLLMAStar.__new__(StartVisibleWaypointLLMAStar)
+            alg.llm, alg.prompt, alg.model = "gpt", "standard", FakeModel(points)
+            return alg
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            query_path = Path(temp_dir) / "query.json"
+            output_path = Path(temp_dir) / "improved.json"
+            query_path.write_text(json.dumps(item["query"]), encoding="utf-8")
+            argv = ["run_query.py", "--method", "improved", "--prompt",
+                    "standard", "--query", str(query_path), "--output",
+                    str(output_path)]
+            with mock.patch.object(sys, "argv", argv), mock.patch.object(
+                    run_query, "StartVisibleWaypointLLMAStar", fake_search), \
+                    contextlib.redirect_stdout(io.StringIO()):
+                run_query.main()
+            actual = json.loads(output_path.read_text(encoding="utf-8"))
+            audit = json.loads(output_path.with_suffix(".audit.json").read_text(
+                encoding="utf-8"))
+            assert actual["operation"] == expected["operation"]
+            assert audit["path_valid"] and audit["gate_active"]
+            assert audit["selected_waypoint"] == list(expected["selected_waypoint"])
+            print("CLI improved: saved valid result and waypoint audit")
     finally:
         plotting.Plotting = original_plot
 

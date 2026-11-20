@@ -1,4 +1,4 @@
-"""Live GPT LLM-A* with the pre-registered selective waypoint rule."""
+"""Live GPT LLM-A* implementations for the recorded improvement candidates."""
 
 import copy
 import math

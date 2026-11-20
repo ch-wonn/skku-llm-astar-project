@@ -4,6 +4,12 @@
 아직 없습니다. 이 문서와 링크된 재현 v2·개선 결과를 기준으로 작성하세요.
 Git 커밋 순서를 보고서의 실험 순서로 옮기지 않아도 됩니다.
 
+**제출용 개선 방법은 `start_visible_waypoint` (`--method improved`)입니다.**
+GPT 결과에서 탐색량을 더 줄였지만 경로 길이가 조금 길어지는 교환이
+있습니다. GPT 전체 결과를 본 뒤 설계했으므로 탐색적 성과라고
+표기하세요. `weighted_waypoint`는 GPT 평가 전에 고정했던 비교 후보,
+`selective_waypoint`는 이전의 더 엄격한 선택 규칙입니다.
+
 ## 보고서의 한 줄 흐름
 
 1. **문제 발견:** 원본 LLM-A*는 목적지와 LLM 경유점까지의 거리를 같은
@@ -70,9 +76,10 @@ bootstrap 신뢰구간, 저장 항목과 길이의 부가 결과는
 - `baseline/run_query.py --method weighted_waypoint`: 핵심 후보
   (`goal=2, waypoint=0.5`).
 - `baseline/run_query.py --method selective_waypoint`: 선택적 경유점
-  추가 실험. 이전 `--method improved`도 같은 방법의 별칭이다.
+  추가 실험의 이전 규칙.
 - `baseline/run_query.py --method start_visible_waypoint`: GPT 후속 실험의
-  새 탐색 규칙. 탐색량이 줄지만 경로 길이가 조금 길어지는 후보.
+  제출용 개선 규칙. 탐색량이 줄지만 경로 길이가 조금 길어진다.
+  `--method improved`는 같은 실행 방법의 별칭이다.
 - `scripts/evaluate_gpt_v2.py`: 저장된 GPT 결과의 오프라인 비교.
   API 키가 필요 없다.
 - 실제 GPT API를 통한 통합 개선 실행과 Ubuntu 22.04/Python 3.11

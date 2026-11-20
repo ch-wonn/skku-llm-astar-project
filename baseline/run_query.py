@@ -40,7 +40,7 @@ def main():
         alg = AuditedLLMAStar(llm='gpt', prompt=args.prompt)
     elif args.method == 'weighted_waypoint':
         alg = WeightedWaypointLLMAStar(llm='gpt', prompt=args.prompt)
-    elif args.method == 'start_visible_waypoint':
+    elif args.method in ('start_visible_waypoint', 'improved'):
         alg = StartVisibleWaypointLLMAStar(llm='gpt', prompt=args.prompt)
     else:
         alg = ImprovedLLMAStar(llm='gpt', prompt=args.prompt)

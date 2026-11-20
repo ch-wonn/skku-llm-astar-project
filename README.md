@@ -9,6 +9,8 @@
 사용합니다. Git 커밋 순서와 오래된 결과 폴더를 보고 최종 성능표를
 만들지 마세요. 저장된 응답을 이용한 추가 알고리즘 시도는
 [후속 탐색 실험 기록](docs/gpt_followup_search_experiments.md)에 있습니다.
+**제출용 개선 방법은 `start_visible_waypoint`로 고정했습니다.**
+`--method improved`는 같은 방법의 짧은 별칭입니다.
 
 ## Current reproduction status
 
@@ -47,6 +49,7 @@ This does not claim arbitrary local LLM backends have been implemented or tested
 
 ```bash
 python baseline/test_reproduction.py
+python baseline/test_improved_search.py
 python baseline/run_reproduction.py --validate-only --require-public-count --out baseline/experiment_results/reproduction_v2/astar
 ```
 
@@ -73,6 +76,7 @@ python baseline/run_query.py --method llm --prompt standard --query /path/to/que
 python baseline/run_query.py --method weighted_waypoint --prompt standard --query /path/to/query.json --output /path/to/weighted_waypoint.json
 python baseline/run_query.py --method selective_waypoint --prompt standard --query /path/to/query.json --output /path/to/selective_waypoint.json
 python baseline/run_query.py --method start_visible_waypoint --prompt standard --query /path/to/query.json --output /path/to/start_visible_waypoint.json
+python baseline/run_query.py --method improved --prompt standard --query /path/to/query.json --output /path/to/improved.json
 ```
 
 Input: a JSON object containing `start`, `goal`, `range_x`, `range_y`,
@@ -82,7 +86,9 @@ methods use the same GPT call. `weighted_waypoint` keeps all filtered waypoints
 with goal weight 2 and waypoint weight 0.5. `selective_waypoint` chooses at
 most one eligible waypoint and otherwise uses the LLM-free weighted A*
 priority. `start_visible_waypoint` relaxes its visibility test to the first
-leg and has a measured path-length trade-off. The LLM-free control here uses
+leg and is the selected submission method. It has a measured path-length
+trade-off and was designed after viewing the saved GPT results, so its
+published results are exploratory. The LLM-free control here uses
 a **fixed** goal weight of 2; the paper's Table 1 uses a distinct Dynamic WA*
 with a 0.99 weight decay. Their audit files record path validity; the gate audits also
 records the original and selected waypoints. Diagnostics are
@@ -92,7 +98,7 @@ count is required for single-query execution.
 
 ## Scope and team integration
 
-Both improvement candidates are implemented in `baseline/improved_search.py`
+The improvement candidates are implemented in `baseline/improved_search.py`
 and checked against the offline replay on saved GPT responses. The main
 report comparison is `weighted_waypoint` versus the original LLM-A*; the
 selective method is an additional experiment. Reproduce their offline
