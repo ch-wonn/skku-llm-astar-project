@@ -3,7 +3,7 @@ import math
 import heapq
 
 from llmastar.env.search import env, plotting
-from llmastar.model import ChatGPT, Llama3
+from llmastar.model import ChatGPT
 from llmastar.utils import is_lines_collision, list_parse
 from .prompt import *
 
@@ -19,6 +19,7 @@ class LLMAStar:
             self.parser = ChatGPT(method=self.GPT_METHOD, sysprompt=sysprompt_parse, example=example_parse)
             self.model = ChatGPT(method=self.GPT_LLMASTAR_METHOD, sysprompt="", example=None)
         elif self.llm == 'llama':
+            from llmastar.model.llama3 import Llama3
             self.model = Llama3()
         else:
             raise ValueError("Invalid LLM model. Choose 'gpt' or 'llama'.")
