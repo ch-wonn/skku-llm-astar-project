@@ -82,9 +82,10 @@ bootstrap 신뢰구간, 저장 항목과 길이의 부가 결과는
   `--method improved`는 같은 실행 방법의 별칭이다.
 - `scripts/evaluate_gpt_v2.py`: 저장된 GPT 결과의 오프라인 비교.
   API 키가 필요 없다.
-- 실제 GPT API를 통한 통합 개선 실행과 Ubuntu 22.04/Python 3.11
-  빈 환경 설치·실행 검사는 아직 하지 않았다. 따라서 제출 전 검증 항목으로
-  남겨둔다.
+- [Ubuntu 22.04/Python 3.11 자동 검사](https://github.com/ch-wonn/skku-llm-astar-project/actions/runs/44775360474)에서
+  `pip install -r requirements.txt`, `pip check`, 재현 코드 검사와 개선
+  코드 검사가 모두 통과했다. 이 검사는 저장된 응답을 사용했으며 API 키를
+  쓰지 않았다. 실제 GPT API를 통한 통합 개선 실행은 아직 하지 않았다.
 
 GPT 재현 결과는 Linux/Python 3.11에서 생성됐고 개선 비교는
 Windows/Python 3.12에서 모든 후보를 다시 실행했다. 원본 수치도 일부

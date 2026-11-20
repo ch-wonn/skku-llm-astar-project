@@ -47,6 +47,10 @@ This does not claim arbitrary local LLM backends have been implemented or tested
 
 ## Offline checks
 
+The [Ubuntu 22.04 / Python 3.11 CPU check](https://github.com/ch-wonn/skku-llm-astar-project/actions/runs/44775360474)
+passed dependency installation, `pip check`, reproduction tests, and the
+improvement test using saved responses. It does not make a live API request.
+
 ```bash
 python baseline/test_reproduction.py
 python baseline/test_improved_search.py
@@ -109,9 +113,8 @@ python scripts/evaluate_gpt_v2.py --results-root baseline/experiment_results/rep
 ```
 
 Repeat with `cot` and `repe`. This step makes no API calls. The live improved
-method does require the same GPT connection as the baseline. Before final
-submission, retest the combined code in a clean Ubuntu 22.04 / Python 3.11
-CPU environment using only `pip install -r requirements.txt`.
+method requires the same GPT connection as the baseline; the automated CPU
+check does not verify a live GPT call.
 
 The final team submission includes the ACL-format report and
 `TeamName_CodeFile.zip` with code, README and requirements. Each student separately
