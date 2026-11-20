@@ -1,2 +1,30 @@
-# Official source, pinned to the inspected commit. setup.py installs its declared dependencies.
-git+https://github.com/SilinMeng0510/llm-astar.git@9414ed894d774f71c36e8c0afd0e20e6033b95b1
+# Tested CPU/API reproduction dependencies on Python 3.11.18.
+# No GPU packages; local baseline source is imported directly.
+aiohappyeyeballs==2.7.1
+aiohttp==3.14.5
+aiosignal==1.4.0
+attrs==26.1.0
+certifi==2026.10.23
+charset-normalizer==3.5.2
+contourpy==1.3.3
+cycler==0.12.1
+fonttools==4.68.0
+frozenlist==1.8.0
+idna==3.20
+kiwisolver==1.5.1
+matplotlib==3.8.4
+multidict==7.2.1
+numpy==1.26.4
+openai==0.27.2
+packaging==26.3
+pillow==13.0.0
+propcache==0.5.4
+pyparsing==3.3.3
+python-dateutil==4.0.0
+requests==2.34.2
+shapely==2.0.6
+tqdm==4.70.1
+typing_extensions==4.16.0
+tzdata==2026.6
+urllib3==2.8.0
+yarl==1.25.1

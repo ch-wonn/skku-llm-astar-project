@@ -1,0 +1,251 @@
+{
+  "index": 493,
+  "map_id": 49,
+  "pair_index": 3,
+  "query": {
+    "range_x": [
+      0,
+      51
+    ],
+    "range_y": [
+      0,
+      31
+    ],
+    "horizontal_barriers": [
+      [
+        25,
+        40,
+        42
+      ],
+      [
+        30,
+        47,
+        49
+      ],
+      [
+        20,
+        7,
+        41
+      ],
+      [
+        24,
+        26,
+        35
+      ]
+    ],
+    "vertical_barriers": [
+      [
+        19,
+        7,
+        14
+      ],
+      [
+        35,
+        27,
+        30
+      ]
+    ],
+    "start": [
+      6,
+      17
+    ],
+    "goal": [
+      24,
+      12
+    ]
+  },
+  "status": "valid",
+  "method": "llm",
+  "prompt": "repe",
+  "result": {
+    "operation": 22,
+    "storage": 73,
+    "length": 20.07106781186548,
+    "llm_output": [
+      [
+        6,
+        17
+      ],
+      [
+        20,
+        19
+      ],
+      [
+        21,
+        12
+      ],
+      [
+        24,
+        12
+      ]
+    ]
+  },
+  "path": [
+    [
+      6,
+      17
+    ],
+    [
+      7,
+      17
+    ],
+    [
+      8,
+      17
+    ],
+    [
+      9,
+      17
+    ],
+    [
+      10,
+      17
+    ],
+    [
+      11,
+      17
+    ],
+    [
+      12,
+      17
+    ],
+    [
+      13,
+      17
+    ],
+    [
+      14,
+      17
+    ],
+    [
+      15,
+      17
+    ],
+    [
+      16,
+      17
+    ],
+    [
+      17,
+      17
+    ],
+    [
+      18,
+      17
+    ],
+    [
+      19,
+      17
+    ],
+    [
+      20,
+      16
+    ],
+    [
+      21,
+      15
+    ],
+    [
+      22,
+      14
+    ],
+    [
+      23,
+      13
+    ],
+    [
+      24,
+      12
+    ]
+  ],
+  "validation_error": null,
+  "waypoint_audit": {
+    "parse_ok": true,
+    "target_transitions": [
+      {
+        "from": [
+          20,
+          19
+        ],
+        "to": [
+          21,
+          12
+        ]
+      },
+      {
+        "from": [
+          21,
+          12
+        ],
+        "to": [
+          24,
+          12
+        ]
+      }
+    ],
+    "parsed_nodes": [
+      [
+        6,
+        17
+      ],
+      [
+        20,
+        19
+      ],
+      [
+        21,
+        12
+      ],
+      [
+        24,
+        12
+      ]
+    ],
+    "filtered_nodes_before_endpoint_insertion": [
+      [
+        6,
+        17
+      ],
+      [
+        20,
+        19
+      ],
+      [
+        21,
+        12
+      ],
+      [
+        24,
+        12
+      ]
+    ],
+    "final_targets": [
+      [
+        6,
+        17
+      ],
+      [
+        20,
+        19
+      ],
+      [
+        21,
+        12
+      ],
+      [
+        24,
+        12
+      ]
+    ],
+    "intermediate_count": 2,
+    "initial_target": [
+      20,
+      19
+    ],
+    "fallback_used": false
+  },
+  "api_files": [
+    "8ad35beb47644db7b6b48ff0cbbc64ff.json"
+  ],
+  "elapsed_seconds_including_plot_and_validation": 5.521191204999923
+}

@@ -1,0 +1,14 @@
+{
+  "expected": 1000,
+  "attempted": 1000,
+  "unattempted": 0,
+  "valid": 971,
+  "invalid": 0,
+  "error": 29,
+  "parse_ok": 971,
+  "cases_with_intermediate": 909,
+  "recorded_responses": 1000,
+  "prompt_tokens": 612080,
+  "completion_tokens": 353739,
+  "missing_usage": 0
+}

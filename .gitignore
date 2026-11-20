@@ -18,3 +18,9 @@ results/
 
 # Accidental local file
 /eline with GPT-4o mini"
+
+# Reproduction verification environment and local artifacts
+.venv311/
+.run.lock
+*.tmp
+*:Zone.Identifier
