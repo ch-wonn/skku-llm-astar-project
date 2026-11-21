@@ -2,7 +2,7 @@
 
 ## 보고서 작성자는 여기부터
 
-**최신 통합 작업은 `improvement` 브랜치에 있습니다.** 보고서의 실험
+**최종 개선 방법과 실험 인계는 이 저장소에 있습니다.** 보고서의 실험
 흐름과 사용할 수치는 [보고서 담당자 안내](docs/REPORT_HANDOFF.md)를
 먼저 보세요. Gemini 결과는 방법 개발을 위한 예비 실험이고, 최종
 성능 비교는 팀원의 수정된 GPT-4o mini `reproduction_v2` 응답을
@@ -85,7 +85,7 @@ python baseline/run_query.py --method improved --prompt standard --query /path/t
 
 Input: a JSON object containing `start`, `goal`, `range_x`, `range_y`,
 `horizontal_barriers`, `vertical_barriers`. The output includes `operation`,
-`storage`, `length` and `llm_output` for the LLM methods. Both improvement
+`storage`, `length` and `llm_output` for the LLM methods. All improvement
 methods use the same GPT call. `weighted_waypoint` keeps all filtered waypoints
 with goal weight 2 and waypoint weight 0.5. `selective_waypoint` chooses at
 most one eligible waypoint and otherwise uses the LLM-free weighted A*
