@@ -1,0 +1,64 @@
+{
+  "index": 874,
+  "map_id": 87,
+  "pair_index": 4,
+  "query": {
+    "range_x": [
+      0,
+      51
+    ],
+    "range_y": [
+      0,
+      31
+    ],
+    "horizontal_barriers": [
+      [
+        20,
+        30,
+        39
+      ],
+      [
+        27,
+        8,
+        49
+      ],
+      [
+        16,
+        21,
+        36
+      ]
+    ],
+    "vertical_barriers": [
+      [
+        23,
+        19,
+        24
+      ],
+      [
+        39,
+        26,
+        26
+      ]
+    ],
+    "start": [
+      37,
+      21
+    ],
+    "goal": [
+      5,
+      13
+    ]
+  },
+  "status": "error",
+  "method": "llm",
+  "prompt": "standard",
+  "error_type": "IncompleteLLMResponse",
+  "waypoint_audit": {
+    "parse_ok": false,
+    "target_transitions": []
+  },
+  "api_files": [
+    "f4888bf350ee460d944987b4e52917f2.json"
+  ],
+  "elapsed_seconds_including_plot_and_validation": 8.567474571000275
+}

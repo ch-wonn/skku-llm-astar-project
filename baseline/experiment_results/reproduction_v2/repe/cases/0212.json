@@ -1,0 +1,219 @@
+{
+  "index": 212,
+  "map_id": 21,
+  "pair_index": 2,
+  "query": {
+    "range_x": [
+      0,
+      51
+    ],
+    "range_y": [
+      0,
+      31
+    ],
+    "horizontal_barriers": [
+      [
+        2,
+        13,
+        49
+      ],
+      [
+        12,
+        31,
+        37
+      ],
+      [
+        5,
+        6,
+        8
+      ],
+      [
+        3,
+        37,
+        39
+      ]
+    ],
+    "vertical_barriers": [
+      [
+        22,
+        17,
+        28
+      ],
+      [
+        39,
+        23,
+        30
+      ]
+    ],
+    "start": [
+      40,
+      29
+    ],
+    "goal": [
+      35,
+      20
+    ]
+  },
+  "status": "valid",
+  "method": "llm",
+  "prompt": "repe",
+  "result": {
+    "operation": 13,
+    "storage": 44,
+    "length": 12.242640687119287,
+    "llm_output": [
+      [
+        40,
+        29
+      ],
+      [
+        39,
+        22
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        35,
+        20
+      ]
+    ]
+  },
+  "path": [
+    [
+      40,
+      29
+    ],
+    [
+      40,
+      28
+    ],
+    [
+      40,
+      27
+    ],
+    [
+      40,
+      26
+    ],
+    [
+      40,
+      25
+    ],
+    [
+      40,
+      24
+    ],
+    [
+      40,
+      23
+    ],
+    [
+      39,
+      22
+    ],
+    [
+      38,
+      22
+    ],
+    [
+      37,
+      22
+    ],
+    [
+      36,
+      21
+    ],
+    [
+      35,
+      20
+    ]
+  ],
+  "validation_error": null,
+  "waypoint_audit": {
+    "parse_ok": true,
+    "target_transitions": [
+      {
+        "from": [
+          39,
+          22
+        ],
+        "to": [
+          35,
+          22
+        ]
+      },
+      {
+        "from": [
+          35,
+          22
+        ],
+        "to": [
+          35,
+          20
+        ]
+      }
+    ],
+    "parsed_nodes": [
+      [
+        40,
+        29
+      ],
+      [
+        39,
+        22
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        35,
+        20
+      ]
+    ],
+    "filtered_nodes_before_endpoint_insertion": [
+      [
+        39,
+        22
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        35,
+        20
+      ]
+    ],
+    "final_targets": [
+      [
+        40,
+        29
+      ],
+      [
+        39,
+        22
+      ],
+      [
+        35,
+        22
+      ],
+      [
+        35,
+        20
+      ]
+    ],
+    "intermediate_count": 2,
+    "initial_target": [
+      39,
+      22
+    ],
+    "fallback_used": false
+  },
+  "api_files": [
+    "99749898bf524c1d888e3ebddc862a5b.json"
+  ],
+  "elapsed_seconds_including_plot_and_validation": 6.020891928999845
+}

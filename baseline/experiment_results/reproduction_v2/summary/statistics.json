@@ -1,0 +1,227 @@
+{
+  "bootstrap_unit": "map (all start/goal pairs kept together)",
+  "bootstrap_resamples": 5000,
+  "seed": 2026,
+  "interpretation": "Across-map sampling uncertainty conditional on one observed response per case; NOT LLM repeatability.",
+  "ci_warning": "An all-success or all-failure empirical dataset yields a degenerate bootstrap interval; it is not a guarantee for new maps.",
+  "ratio_definition": "Geometric mean of per-case LLM-A*/A* ratios on paired valid cases only.",
+  "methods": {
+    "astar": {
+      "attempted": 1000,
+      "valid": 1000,
+      "invalid": 0,
+      "error": 0,
+      "valid_percent": 100.0,
+      "valid_percent_map_bootstrap_ci95": [
+        100.0,
+        100.0
+      ],
+      "parse_ok": null,
+      "cases_with_intermediate": null,
+      "ratios": {
+        "operation": {
+          "n": 1000,
+          "excluded": 0,
+          "geometric_mean_percent": 100.0,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            100.0,
+            100.0
+          ],
+          "sample_sd_of_case_percent_ratios": 0.0,
+          "arithmetic_mean_percent": 100.0
+        },
+        "storage": {
+          "n": 1000,
+          "excluded": 0,
+          "geometric_mean_percent": 100.0,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            100.0,
+            100.0
+          ],
+          "sample_sd_of_case_percent_ratios": 0.0,
+          "arithmetic_mean_percent": 100.0
+        },
+        "length": {
+          "n": 1000,
+          "excluded": 0,
+          "geometric_mean_percent": 100.0,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            100.0,
+            100.0
+          ],
+          "sample_sd_of_case_percent_ratios": 0.0,
+          "arithmetic_mean_percent": 100.0
+        }
+      },
+      "api_usage": {
+        "recorded_responses": 0,
+        "prompt_tokens": 0,
+        "completion_tokens": 0,
+        "missing_usage": 0
+      }
+    },
+    "standard": {
+      "attempted": 1000,
+      "valid": 878,
+      "invalid": 0,
+      "error": 122,
+      "valid_percent": 87.8,
+      "valid_percent_map_bootstrap_ci95": [
+        85.7,
+        89.9
+      ],
+      "parse_ok": 878,
+      "cases_with_intermediate": 831,
+      "ratios": {
+        "operation": {
+          "n": 878,
+          "excluded": 122,
+          "geometric_mean_percent": 49.64506557472752,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            46.35996522522339,
+            53.201842384652295
+          ],
+          "sample_sd_of_case_percent_ratios": 85.0702097429282,
+          "arithmetic_mean_percent": 73.48338112872412
+        },
+        "storage": {
+          "n": 878,
+          "excluded": 122,
+          "geometric_mean_percent": 67.86958248812786,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            65.84212916750432,
+            69.97408006911351
+          ],
+          "sample_sd_of_case_percent_ratios": 42.62267649239592,
+          "arithmetic_mean_percent": 75.76496263200713
+        },
+        "length": {
+          "n": 878,
+          "excluded": 122,
+          "geometric_mean_percent": 102.67570072296944,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            102.40240720425595,
+            102.97140563510831
+          ],
+          "sample_sd_of_case_percent_ratios": 4.543005645293652,
+          "arithmetic_mean_percent": 102.768905662539
+        }
+      },
+      "api_usage": {
+        "recorded_responses": 1000,
+        "prompt_tokens": 587080,
+        "completion_tokens": 597963,
+        "missing_usage": 0
+      }
+    },
+    "cot": {
+      "attempted": 1000,
+      "valid": 971,
+      "invalid": 0,
+      "error": 29,
+      "valid_percent": 97.1,
+      "valid_percent_map_bootstrap_ci95": [
+        95.8,
+        98.2
+      ],
+      "parse_ok": 971,
+      "cases_with_intermediate": 909,
+      "ratios": {
+        "operation": {
+          "n": 971,
+          "excluded": 29,
+          "geometric_mean_percent": 47.95088189183326,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            44.68973201373574,
+            51.63550065097113
+          ],
+          "sample_sd_of_case_percent_ratios": 65.83624972862424,
+          "arithmetic_mean_percent": 67.25756315337492
+        },
+        "storage": {
+          "n": 971,
+          "excluded": 29,
+          "geometric_mean_percent": 66.44049843456192,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            64.2921678664072,
+            68.68518025755998
+          ],
+          "sample_sd_of_case_percent_ratios": 36.445883654340584,
+          "arithmetic_mean_percent": 73.07019193604643
+        },
+        "length": {
+          "n": 971,
+          "excluded": 29,
+          "geometric_mean_percent": 102.57004111179506,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            102.3012960460394,
+            102.84165575911489
+          ],
+          "sample_sd_of_case_percent_ratios": 4.578757741509189,
+          "arithmetic_mean_percent": 102.66344675590888
+        }
+      },
+      "api_usage": {
+        "recorded_responses": 1000,
+        "prompt_tokens": 612080,
+        "completion_tokens": 353739,
+        "missing_usage": 0
+      }
+    },
+    "repe": {
+      "attempted": 1000,
+      "valid": 944,
+      "invalid": 0,
+      "error": 56,
+      "valid_percent": 94.4,
+      "valid_percent_map_bootstrap_ci95": [
+        92.7,
+        96.0
+      ],
+      "parse_ok": 944,
+      "cases_with_intermediate": 917,
+      "ratios": {
+        "operation": {
+          "n": 944,
+          "excluded": 56,
+          "geometric_mean_percent": 51.70955117559073,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            47.90532876807453,
+            55.81109903523627
+          ],
+          "sample_sd_of_case_percent_ratios": 80.07629458015573,
+          "arithmetic_mean_percent": 74.47568012774668
+        },
+        "storage": {
+          "n": 944,
+          "excluded": 56,
+          "geometric_mean_percent": 69.10154992426047,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            66.64040844104757,
+            71.694107068408
+          ],
+          "sample_sd_of_case_percent_ratios": 39.83572688295452,
+          "arithmetic_mean_percent": 76.59167557924108
+        },
+        "length": {
+          "n": 944,
+          "excluded": 56,
+          "geometric_mean_percent": 102.54739407381588,
+          "geometric_mean_percent_map_bootstrap_ci95": [
+            102.28907096805524,
+            102.81777836292194
+          ],
+          "sample_sd_of_case_percent_ratios": 4.2292714684582835,
+          "arithmetic_mean_percent": 102.62759853374061
+        }
+      },
+      "api_usage": {
+        "recorded_responses": 1000,
+        "prompt_tokens": 1164080,
+        "completion_tokens": 560950,
+        "missing_usage": 0
+      }
+    }
+  },
+  "invalid_old_run": "gpt4omini_standard: newline stop + parse fallback; excluded"
+}

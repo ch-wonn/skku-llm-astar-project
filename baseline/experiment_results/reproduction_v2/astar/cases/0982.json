@@ -1,0 +1,104 @@
+{
+  "index": 982,
+  "map_id": 98,
+  "pair_index": 2,
+  "query": {
+    "range_x": [
+      0,
+      51
+    ],
+    "range_y": [
+      0,
+      31
+    ],
+    "horizontal_barriers": [
+      [
+        7,
+        3,
+        21
+      ]
+    ],
+    "vertical_barriers": [
+      [
+        5,
+        1,
+        22
+      ],
+      [
+        26,
+        30,
+        31
+      ],
+      [
+        26,
+        17,
+        25
+      ]
+    ],
+    "start": [
+      21,
+      23
+    ],
+    "goal": [
+      28,
+      19
+    ]
+  },
+  "status": "valid",
+  "method": "astar",
+  "prompt": null,
+  "result": {
+    "operation": 89,
+    "storage": 114,
+    "length": 12.899494936611667
+  },
+  "path": [
+    [
+      21,
+      23
+    ],
+    [
+      22,
+      22
+    ],
+    [
+      22,
+      21
+    ],
+    [
+      23,
+      20
+    ],
+    [
+      24,
+      19
+    ],
+    [
+      25,
+      18
+    ],
+    [
+      25,
+      17
+    ],
+    [
+      26,
+      16
+    ],
+    [
+      27,
+      17
+    ],
+    [
+      27,
+      18
+    ],
+    [
+      28,
+      19
+    ]
+  ],
+  "validation_error": null,
+  "api_files": [],
+  "elapsed_seconds_including_plot_and_validation": 0.034061292000046706
+}

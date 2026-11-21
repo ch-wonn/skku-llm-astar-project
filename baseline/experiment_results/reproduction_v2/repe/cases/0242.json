@@ -1,0 +1,178 @@
+{
+  "index": 242,
+  "map_id": 24,
+  "pair_index": 2,
+  "query": {
+    "range_x": [
+      0,
+      51
+    ],
+    "range_y": [
+      0,
+      31
+    ],
+    "horizontal_barriers": [
+      [
+        4,
+        31,
+        49
+      ],
+      [
+        24,
+        18,
+        18
+      ]
+    ],
+    "vertical_barriers": [
+      [
+        44,
+        22,
+        27
+      ],
+      [
+        17,
+        5,
+        15
+      ],
+      [
+        35,
+        16,
+        19
+      ],
+      [
+        14,
+        30,
+        31
+      ]
+    ],
+    "start": [
+      7,
+      13
+    ],
+    "goal": [
+      20,
+      14
+    ]
+  },
+  "status": "valid",
+  "method": "llm",
+  "prompt": "repe",
+  "result": {
+    "operation": 18,
+    "storage": 60,
+    "length": 15.071067811865479,
+    "llm_output": [
+      [
+        7,
+        13
+      ],
+      [
+        20,
+        14
+      ]
+    ]
+  },
+  "path": [
+    [
+      7,
+      13
+    ],
+    [
+      8,
+      13
+    ],
+    [
+      9,
+      13
+    ],
+    [
+      10,
+      13
+    ],
+    [
+      11,
+      13
+    ],
+    [
+      12,
+      13
+    ],
+    [
+      13,
+      13
+    ],
+    [
+      14,
+      13
+    ],
+    [
+      15,
+      14
+    ],
+    [
+      16,
+      15
+    ],
+    [
+      17,
+      16
+    ],
+    [
+      18,
+      15
+    ],
+    [
+      19,
+      14
+    ],
+    [
+      20,
+      14
+    ]
+  ],
+  "validation_error": null,
+  "waypoint_audit": {
+    "parse_ok": true,
+    "target_transitions": [],
+    "parsed_nodes": [
+      [
+        7,
+        13
+      ],
+      [
+        20,
+        14
+      ]
+    ],
+    "filtered_nodes_before_endpoint_insertion": [
+      [
+        7,
+        13
+      ],
+      [
+        20,
+        14
+      ]
+    ],
+    "final_targets": [
+      [
+        7,
+        13
+      ],
+      [
+        20,
+        14
+      ]
+    ],
+    "intermediate_count": 0,
+    "initial_target": [
+      20,
+      14
+    ],
+    "fallback_used": false
+  },
+  "api_files": [
+    "8fbf6e0116ca473ab1e469bc4ccc7476.json"
+  ],
+  "elapsed_seconds_including_plot_and_validation": 4.083263280999745
+}
