@@ -47,7 +47,7 @@ This does not claim arbitrary local LLM backends have been implemented or tested
 
 ## Offline checks
 
-The [Ubuntu 22.04 / Python 3.11 CPU check](https://github.com/ch-wonn/skku-llm-astar-project/actions/runs/44775360474)
+The [Ubuntu 22.04 / Python 3.11 CPU check](https://github.com/ch-wonn/skku-llm-astar-project/actions/runs/44859363255)
 passed dependency installation, `pip check`, reproduction tests, and the
 improvement test using saved responses. It does not make a live API request.
 
