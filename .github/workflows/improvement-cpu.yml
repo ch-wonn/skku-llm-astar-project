@@ -2,7 +2,7 @@ name: CPU reproduction and improvement checks
 
 on:
   push:
-    branches: [improvement]
+    branches: [main, improvement]
   workflow_dispatch:
 
 jobs:

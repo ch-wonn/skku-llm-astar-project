@@ -3,7 +3,7 @@ import math
 import heapq
 
 from llmastar.env.search import env, plotting
-from llmastar.model import ChatGPT
+from llmastar.model import ChatGPT, Llama3
 from llmastar.utils import is_lines_collision, list_parse
 from .prompt import *
 
@@ -19,7 +19,6 @@ class LLMAStar:
             self.parser = ChatGPT(method=self.GPT_METHOD, sysprompt=sysprompt_parse, example=example_parse)
             self.model = ChatGPT(method=self.GPT_LLMASTAR_METHOD, sysprompt="", example=None)
         elif self.llm == 'llama':
-            from llmastar.model.llama3 import Llama3
             self.model = Llama3()
         else:
             raise ValueError("Invalid LLM model. Choose 'gpt' or 'llama'.")
@@ -68,17 +67,13 @@ class LLMAStar:
         query = self._generate_llm_query(start, goal)
 
         if self.llm == 'gpt':
-            # The upstream ChatGPT.ask default stops at the first newline.
-            # The requested "Generated Path" is often on a later line.
-            response = self.model.ask(prompt=query, max_tokens=1000, stop=None)
+            response = self.model.ask(prompt=query, max_tokens=1000)
         elif self.llm == 'llama':
             response = self.model.ask(prompt=query)
         else:
             raise ValueError("Invalid LLM model.")
 
         nodes = list_parse(response)
-        if not isinstance(nodes, list) or nodes == [[0, 0], [0, 0]]:
-            raise ValueError("LLM response contains no parseable waypoint list")
         self.target_list = self._filter_valid_nodes(nodes)
 
         if not self.target_list or self.target_list[0] != self.s_start:

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """Place in baseline/. Evaluate the public cases without changing search logic.
 
-Python 3.10+, Windows/Linux. Uses the existing openai==0.27.2 adapter.
+Python 3.10+, WSL/Linux. Uses the existing openai==0.27.2 adapter.
 No automatic retries. Each method/case is checkpointed separately.
 """
 import argparse
@@ -38,38 +38,6 @@ def save(path, obj):
 
 def digest(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
-
-
-def acquire_run_lock(out):
-    """Prevent concurrent writers to one result folder on Windows or Unix."""
-    lock = (out / '.run.lock').open('a+b')
-    try:
-        if os.name == 'nt':
-            import msvcrt
-            lock.seek(0, os.SEEK_END)
-            if lock.tell() == 0:
-                lock.write(b'0')
-                lock.flush()
-            lock.seek(0)
-            msvcrt.locking(lock.fileno(), msvcrt.LK_NBLCK, 1)
-        else:
-            import fcntl
-            fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
-    except Exception:
-        lock.close()
-        raise
-    return lock
-
-
-def release_run_lock(lock):
-    if os.name == 'nt':
-        import msvcrt
-        lock.seek(0)
-        msvcrt.locking(lock.fileno(), msvcrt.LK_UNLCK, 1)
-    else:
-        import fcntl
-        fcntl.flock(lock, fcntl.LOCK_UN)
-    lock.close()
 
 
 def load_cases(path):
@@ -123,16 +91,13 @@ def validate_path(path, query, result):
 
 def summarize(out, cases):
     records = {}
-    selected_indices = {case['index'] for case in cases}
     for p in sorted((out / 'cases').glob('*.json')):
         r = json.loads(p.read_text())
         key = (r['index'], r['method'])
-        if key in records or r['index'] not in selected_indices:
+        if key in records or not 0 <= r['index'] < len(cases):
             raise ValueError('Duplicate or unexpected case')
         records[key] = r
-    report = {'expected_per_method': len(cases), 'selected_maps':
-              len({case['map_id'] for case in cases}),
-              'methods': {}, 'paired_valid': 0}
+    report = {'expected_per_method': len(cases), 'methods': {}, 'paired_valid': 0}
     for method in ['astar', 'llm']:
         rows = [r for (i, m), r in records.items() if m == method]
         valid = sum(r['status'] == 'valid' for r in rows)
@@ -142,17 +107,9 @@ def summarize(out, cases):
             'error': sum(r['status'] == 'error' for r in rows),
             'unattempted': len(cases)-len(rows),
             'valid_percent_of_attempted': 100*valid/len(rows) if rows else None,
-            'valid_percent_of_selected': 100*valid/len(cases)}
-    llm_valid = [r for (i, method), r in records.items()
-                 if method == 'llm' and r['status'] == 'valid']
-    report['llm_waypoints'] = {
-        'valid_cases_with_intermediate_waypoint': sum(
-            len(r['result']['llm_output']) > 2 for r in llm_valid),
-        'valid_cases_start_goal_only': sum(
-            len(r['result']['llm_output']) == 2 for r in llm_valid),
-    }
+            'valid_percent_of_all_1000': 100*valid/len(cases)}
     paired = [(records[(i, 'astar')], records[(i, 'llm')])
-              for i in (case['index'] for case in cases)
+              for i in range(len(cases))
               if all((i, m) in records and records[(i, m)]['status'] == 'valid'
                      for m in ['astar', 'llm'])]
     report['paired_valid'] = len(paired)
@@ -189,36 +146,22 @@ def summarize(out, cases):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--method', choices=['astar','llm','both'], default='both')
-    parser.add_argument('--prompt', choices=['standard', 'cot', 'repe'], default='standard')
-    parser.add_argument('--pairs-per-map', type=int, default=10,
-                        help='Use the first N start/goal pairs on each of the 100 maps')
     parser.add_argument('--limit', type=int, default=1000)
-    parser.add_argument('--out', type=Path,
-                        help='Default: baseline/experiment_results/gpt4omini_<prompt>_<N>pairs_fixed')
+    parser.add_argument('--out', type=Path, default=BASE/'experiment_results'/'gpt4omini_standard')
     parser.add_argument('--validate-only', action='store_true')
     parser.add_argument('--summary-only', action='store_true')
     args = parser.parse_args()
     if not 1 <= args.limit <= 1000:
         parser.error('--limit must be between 1 and 1000')
-    if not 1 <= args.pairs_per_map <= 10:
-        parser.error('--pairs-per-map must be between 1 and 10')
     dataset = BASE/'dataset'/'environment_50_30.json'
-    all_cases = load_cases(dataset)
-    cases = [case for case in all_cases
-             if case['pair_index'] < args.pairs_per_map]
-    print(f'Dataset: 100 maps, {len(all_cases)} cases; '
-          f'selected {len(cases)} across all maps; SHA256={digest(dataset)}')
+    cases = load_cases(dataset)
+    print(f'Dataset: 100 maps, {len(cases)} cases; SHA256={digest(dataset)}')
     if args.validate_only:
         return
-    name = f'gpt4omini_{args.prompt}_{args.pairs_per_map}pairs_fixed'
-    out = (args.out or BASE/'experiment_results'/name).resolve()
+    out = args.out.resolve()
     if args.summary_only:
         if not (out/'manifest.json').is_file():
             parser.error('No existing experiment manifest')
-        existing = json.loads((out/'manifest.json').read_text(encoding='utf-8'))
-        if (existing.get('prompt') != args.prompt
-                or existing.get('pairs_per_map') != args.pairs_per_map):
-            parser.error('Prompt or pair selection differs from the saved run')
         summarize(out, cases)
         return
     if os.environ.get('OPENAI_MODEL', 'gpt-4o-mini') != 'gpt-4o-mini':
@@ -236,11 +179,13 @@ def main():
         raise RuntimeError('Wrong llmastar imported; use the local baseline source')
     openai.api_key = os.environ.get('OPENAI_API_KEY')
     out.mkdir(parents=True, exist_ok=True)
-    lock = acquire_run_lock(out)
+    # Linux advisory lock prevents two runners overwriting the same experiment.
+    import fcntl
+    lock = (out/'.run.lock').open('a')
+    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
     files = [Path(__file__).resolve()] + sorted((BASE/'llmastar').rglob('*.py'))
     manifest = {'dataset_sha256': digest(dataset), 'model': 'gpt-4o-mini',
-                'prompt': args.prompt, 'pairs_per_map': args.pairs_per_map,
-                'expected_cases': len(cases),
+                'prompt': 'standard', 'expected_cases': 1000,
                 'timeout_seconds_per_method': 180, 'automatic_retries': 0,
                 'python': platform.python_version(),
                 'packages': {n: importlib.metadata.version(n) for n in
@@ -281,9 +226,7 @@ def main():
         raise TimeoutError('180-second case limit')
     openai.ChatCompletion.create = tracked_api
     Plotting.animation = capture_plot
-    has_alarm = hasattr(signal, 'SIGALRM')
-    if has_alarm:
-        signal.signal(signal.SIGALRM, timed_out)
+    signal.signal(signal.SIGALRM, timed_out)
     methods = ['astar','llm'] if args.method == 'both' else [args.method]
     (out/'plots').mkdir(exist_ok=True)
     try:
@@ -298,10 +241,8 @@ def main():
                 row = dict(case, method=method, status='error')
                 started = time.perf_counter()
                 try:
-                    if has_alarm:
-                        signal.alarm(180)
-                    algorithm = AStar() if method == 'astar' else LLMAStar(
-                        llm='gpt', prompt=args.prompt)
+                    signal.alarm(180)
+                    algorithm = AStar() if method == 'astar' else LLMAStar(llm='gpt', prompt='standard')
                     with contextlib.redirect_stdout(io.StringIO()):
                         result = algorithm.searching(copy.deepcopy(case['query']),
                             filepath=str(out/'plots'/f'{case["index"]:04d}_{method}.png'))
@@ -312,8 +253,7 @@ def main():
                     # Avoid saving exception messages that may contain credentials.
                     row['error_type'] = type(exc).__name__
                 finally:
-                    if has_alarm:
-                        signal.alarm(0)
+                    signal.alarm(0)
                     plt.close('all')
                 row['elapsed_seconds_including_plot'] = time.perf_counter()-started
                 save(rp, row)
@@ -324,7 +264,7 @@ def main():
         openai.ChatCompletion.create = original_api
         Plotting.animation = original_plot
         summarize(out, cases)
-    release_run_lock(lock)
+    fcntl.flock(lock, fcntl.LOCK_UN)
 
 
 if __name__ == '__main__':

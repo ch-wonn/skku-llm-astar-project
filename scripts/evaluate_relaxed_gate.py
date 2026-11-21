@@ -38,6 +38,7 @@ def main():
             if not relaxed["path_valid"]:
                 raise AssertionError(f"Invalid path at {row['index']}")
             row.update({"relaxed": relaxed, "strict": base["selective_gate"],
+                        "astar": base["astar"],
                         "weighted_astar": base["weighted_astar"],
                         "original": base["original"]})
         rows.append(row)
@@ -46,6 +47,7 @@ def main():
                            encoding="utf-8")
     valid = [row for row in rows if row["baseline_status"] == "valid"]
     pairs = (("relaxed_over_strict", "relaxed", "strict"),
+             ("relaxed_over_astar", "relaxed", "astar"),
              ("relaxed_over_weighted_astar", "relaxed", "weighted_astar"),
              ("relaxed_over_original", "relaxed", "original"))
     summary = {"prompt": args.prompt, "valid_source": len(valid),

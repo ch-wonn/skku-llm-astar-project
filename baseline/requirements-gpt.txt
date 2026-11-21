@@ -1,6 +1,0 @@
-# CPU-only dependencies for baseline/run_dataset.py with GPT-4o mini.
-# The optional Llama3 adapter is loaded only when explicitly selected.
-openai==0.27.2
-numpy==2.2.6
-matplotlib==3.10.9
-shapely==2.1.2

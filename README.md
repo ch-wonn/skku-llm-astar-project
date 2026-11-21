@@ -103,16 +103,32 @@ count is required for single-query execution.
 ## Scope and team integration
 
 The improvement candidates are implemented in `baseline/improved_search.py`
-and checked against the offline replay on saved GPT responses. The main
-report comparison is `weighted_waypoint` versus the original LLM-A*; the
-selective method is an additional experiment. Reproduce their offline
-statistics with, for example:
+and checked against the offline replay on saved GPT responses. The selected
+comparison is `start_visible_waypoint` versus the original LLM-A*, ordinary
+A*, and static weighted A*. The earlier `weighted_waypoint` and
+`selective_waypoint` experiments explain how the final method was chosen.
+Recompute the final comparison from saved GPT responses with two steps:
 
 ```bash
-python scripts/evaluate_gpt_v2.py --results-root baseline/experiment_results/reproduction_v2 --prompt standard --output experiments/gpt_v2_standard.jsonl --summary-output experiments/gpt_v2_standard_summary.json
+mkdir -p results/recomputed
+for prompt in standard cot repe; do
+  python scripts/evaluate_gpt_v2.py \
+    --results-root baseline/experiment_results/reproduction_v2 \
+    --prompt "$prompt" \
+    --output "results/recomputed/gpt_v2_${prompt}.jsonl" \
+    --summary-output "results/recomputed/gpt_v2_${prompt}_summary.json"
+  python scripts/evaluate_relaxed_gate.py \
+    --results-root baseline/experiment_results/reproduction_v2 \
+    --base-results "results/recomputed/gpt_v2_${prompt}.jsonl" \
+    --prompt "$prompt" \
+    --output "results/recomputed/gpt_relaxed_${prompt}.jsonl" \
+    --summary-output "results/recomputed/gpt_relaxed_${prompt}_summary.json"
+done
 ```
 
-Repeat with `cot` and `repe`. This step makes no API calls. The live improved
+The first command computes the earlier candidate and the common controls;
+the second computes the **selected final method**. These steps make no API
+calls. The live improved
 method requires the same GPT connection as the baseline; the automated CPU
 check does not verify a live GPT call.
 
